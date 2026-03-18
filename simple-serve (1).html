@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Simple Serve – Simple solutions. Trusted service.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --g:#0F6A3C;--g-dark:#083d22;--g-mid:#115c35;--g-light:#e8f5ee;
+  --gold:#C9920A;--gold-lt:#F0B429;
+  --white:#ffffff;--cream:#F9F7F2;
+  --ink:#111714;--ink2:#2c3830;--muted:#6b7a72;--border:#e2e8e4;
+  --r:12px;--r-lg:20px;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:inherit;border:none;outline:none}
+ul{list-style:none}
+
+/* PAGE SYSTEM */
+.page{display:none}
+.page.active{display:block}
+
+/* NAV */
+#nav{position:sticky;top:0;z-index:900;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:box-shadow .3s}
+#nav.scrolled{box-shadow:0 2px 24px rgba(0,0,0,.07)}
+.nav-wrap{max-width:1280px;margin:0 auto;padding:0 2rem;height:66px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:.6rem}
+.logo-mark{width:38px;height:38px;flex-shrink:0}
+.logo-name{font-family:'Playfair Display',serif;font-weight:900;font-size:1.05rem;color:var(--g);line-height:1.1;letter-spacing:-.3px}
+.logo-tag{font-size:.58rem;color:var(--muted);letter-spacing:.6px;text-transform:uppercase;font-weight:500}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nl{font-size:.83rem;font-weight:500;color:var(--muted);letter-spacing:.1px;transition:color .2s;position:relative}
+.nl::after{content:'';position:absolute;bottom:-3px;left:0;right:100%;height:1.5px;background:var(--g);transition:right .25s var(--ease)}
+.nl:hover,.nl.on{color:var(--g)}
+.nl.on::after,.nl:hover::after{right:0}
+.nav-btn{background:var(--g);color:#fff;font-size:.8rem;font-weight:600;letter-spacing:.2px;padding:.52rem 1.3rem;border-radius:50px;transition:all .25s;box-shadow:0 2px 10px rgba(15,106,60,.22)}
+.nav-btn:hover{background:var(--g-mid);transform:translateY(-1px);box-shadow:0 5px 18px rgba(15,106,60,.3)}
+.ham{display:none;flex-direction:column;gap:5px;padding:4px}
+.ham span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:all .28s}
+.ham.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.ham.on span:nth-child(2){opacity:0}
+.ham.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mob-nav{display:none;flex-direction:column;padding:.5rem 2rem 1.25rem;background:#fff;border-top:1px solid var(--border);gap:.1rem}
+.mob-nav.on{display:flex}
+.mob-nav .nl{padding:.6rem 0;border-bottom:1px solid var(--border);font-size:.9rem}
+.mob-nav .nav-btn{margin-top:.75rem;text-align:center;padding:.72rem;border-radius:var(--r)}
+
+/* HERO */
+#hero{background:var(--g-dark);min-height:92vh;position:relative;overflow:hidden;display:flex;align-items:stretch}
+.hero-noise{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");background-size:200px;opacity:.35;pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:60px 60px}
+.hero-glow{position:absolute;width:600px;height:600px;top:-100px;right:-60px;background:radial-gradient(circle,rgba(201,146,10,.12) 0%,transparent 65%);pointer-events:none}
+.hero-inner{max-width:1280px;width:100%;margin:0 auto;padding:0 2rem;display:grid;grid-template-columns:1fr 500px;gap:3rem;align-items:center;position:relative;z-index:2}
+.hero-left{padding:5rem 0}
+.hero-pill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);color:rgba(255,255,255,.7);font-size:.7rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:.32rem .85rem;border-radius:50px;margin-bottom:1.75rem}
+.pill-dot{width:6px;height:6px;border-radius:50%;background:var(--gold-lt);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+.hero-h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2.8rem,5vw,4.2rem);color:#fff;line-height:1.08;letter-spacing:-1.5px;margin-bottom:1.5rem}
+.hero-h1 em{font-style:italic;color:var(--gold-lt)}
+.hero-sub{font-size:1.05rem;color:rgba(255,255,255,.62);line-height:1.72;max-width:460px;margin-bottom:2.5rem;font-weight:300}
+.hero-actions{display:flex;gap:.9rem;align-items:center;flex-wrap:wrap;margin-bottom:3.5rem}
+.btn-gold-hero{background:var(--gold-lt);color:var(--ink);font-weight:700;font-size:.88rem;letter-spacing:.2px;padding:.82rem 1.9rem;border-radius:50px;transition:all .25s;box-shadow:0 4px 20px rgba(240,180,41,.3);display:inline-flex;align-items:center;gap:.5rem}
+.btn-gold-hero:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(240,180,41,.4)}
+.btn-ghost-hero{color:rgba(255,255,255,.75);font-size:.88rem;font-weight:500;display:inline-flex;align-items:center;gap:.45rem;padding:.82rem 0;transition:color .2s}
+.btn-ghost-hero:hover{color:#fff}
+.hero-stats{display:flex;gap:2.5rem}
+.hstat-n{font-family:'Playfair Display',serif;font-weight:900;font-size:1.9rem;color:var(--gold-lt);line-height:1}
+.hstat-l{font-size:.72rem;color:rgba(255,255,255,.45);margin-top:.2rem;letter-spacing:.3px}
+/* hero right */
+.hero-right{padding:3.5rem 0;display:flex;flex-direction:column;gap:1rem}
+.mcard{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-lg);overflow:hidden}
+.mcard-head{background:rgba(255,255,255,.06);padding:.75rem 1.1rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.07)}
+.mcard-label{font-size:.7rem;color:rgba(255,255,255,.5);font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.mcard-live{display:flex;align-items:center;gap:.4rem;font-size:.68rem;color:#4ade80;font-weight:600}
+.mcard-live-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:blink 1.5s infinite}
+.mcard-body{padding:1.25rem;display:flex;align-items:center;gap:1.25rem}
+.picks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem;flex:1}
+.pick{background:rgba(255,255,255,.07);border-radius:8px;padding:.6rem .4rem;text-align:center;transition:background .2s;cursor:default;border:1px solid rgba(255,255,255,.06)}
+.pick:hover{background:rgba(255,255,255,.13)}
+.pick-e{font-size:1.4rem;display:block;margin-bottom:.3rem}
+.pick-n{font-size:.58rem;color:rgba(255,255,255,.6);font-weight:500;line-height:1.2}
+.pick-p{font-size:.62rem;color:var(--gold-lt);font-weight:700;margin-top:.15rem;font-family:'DM Mono',monospace}
+.mcard-foot{padding:.75rem 1.1rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.07)}
+.mcard-info{display:flex;align-items:center;gap:.45rem;font-size:.7rem;color:rgba(255,255,255,.45)}
+.mcard-cta{background:var(--g);color:#fff;font-size:.68rem;font-weight:700;letter-spacing:.3px;padding:.38rem .9rem;border-radius:50px;transition:background .2s}
+.mcard-cta:hover{background:var(--g-mid)}
+.loc-pill{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:var(--r);padding:.9rem 1.2rem;display:flex;align-items:center;gap:.85rem}
+.loc-ico{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.loc-t{font-size:.75rem;color:rgba(255,255,255,.75);font-weight:600}
+.loc-s{font-size:.68rem;color:rgba(255,255,255,.38);margin-top:.1rem}
+
+/* CAT STRIP */
+#cat-strip{background:var(--cream);border-bottom:1px solid var(--border);padding:1.1rem 2rem;overflow-x:auto}
+.cat-strip-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:.55rem;min-width:max-content}
+.cat-lbl{font-size:.7rem;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-right:.5rem;white-space:nowrap}
+.chip{display:inline-flex;align-items:center;gap:.45rem;background:#fff;border:1.5px solid var(--border);border-radius:50px;padding:.4rem 1rem;font-size:.77rem;font-weight:600;color:var(--muted);white-space:nowrap;cursor:default;transition:all .22s var(--ease)}
+.chip:hover{border-color:var(--g);color:var(--g);background:var(--g-light);transform:translateY(-1px)}
+
+/* PRODUCT CATEGORIES SECTION */
+#prod-cats{background:#fff;padding:5.5rem 2rem}
+.pc-wrap{max-width:1200px;margin:0 auto}
+.sec-eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-size:.7rem;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--g);background:var(--g-light);padding:.3rem .85rem;border-radius:50px;margin-bottom:.85rem;border:1px solid rgba(15,106,60,.15)}
+.sec-h2{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(1.9rem,3.5vw,2.8rem);color:var(--ink);line-height:1.15;letter-spacing:-.5px;margin-bottom:.65rem}
+.sec-h2 em{font-style:italic;color:var(--g)}
+.sec-sub{font-size:.98rem;color:var(--muted);line-height:1.68;max-width:520px}
+.pc-header{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;margin-bottom:3rem;flex-wrap:wrap}
+.btn-green-sm{background:var(--g);color:#fff;font-weight:700;font-size:.82rem;padding:.7rem 1.6rem;border-radius:50px;display:inline-flex;align-items:center;gap:.4rem;flex-shrink:0;box-shadow:0 4px 16px rgba(15,106,60,.22);transition:all .25s}
+.btn-green-sm:hover{background:var(--g-mid);transform:translateY(-1px)}
+.pc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem}
+.pc-tile{border-radius:var(--r-lg);overflow:hidden;position:relative;cursor:pointer;aspect-ratio:.85;transition:transform .3s var(--ease),box-shadow .3s var(--ease);border:1.5px solid var(--border)}
+.pc-tile:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(0,0,0,.12);border-color:transparent}
+.pc-tile-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:3.5rem;transition:transform .4s var(--ease)}
+.pc-tile:hover .pc-tile-bg{transform:scale(1.08)}
+.pc-tile-ov{position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(8,43,24,.8) 100%)}
+.pc-tile-body{position:absolute;bottom:0;left:0;right:0;padding:1.1rem 1.1rem .9rem}
+.pc-tile-name{font-family:'Playfair Display',serif;font-weight:700;font-size:.95rem;color:#fff;line-height:1.25;margin-bottom:.25rem}
+.pc-tile-count{font-size:.65rem;color:rgba(255,255,255,.5);font-weight:600;letter-spacing:.4px;text-transform:uppercase}
+.pc-tile-btn{display:inline-flex;align-items:center;gap:.35rem;margin-top:.6rem;font-size:.65rem;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--gold-lt);opacity:0;transform:translateY(4px);transition:opacity .25s,transform .25s}
+.pc-tile:hover .pc-tile-btn{opacity:1;transform:translateY(0)}
+.t1{background:linear-gradient(135deg,#2d5a3d,#1a3d28)}
+.t2{background:linear-gradient(135deg,#3d3520,#5c4a18)}
+.t3{background:linear-gradient(135deg,#1e3a2e,#2d5c40)}
+.t4{background:linear-gradient(135deg,#1a2d3d,#253d52)}
+.t5{background:linear-gradient(135deg,#3d2820,#5c3820)}
+
+/* SERVICES */
+#services{background:var(--cream);padding:5.5rem 2rem}
+.sv-wrap{max-width:1200px;margin:0 auto}
+.sv-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:3rem}
+.sv-card{background:#fff;border-radius:var(--r-lg);padding:2.5rem;border:1.5px solid var(--border);transition:all .28s;position:relative;overflow:hidden}
+.sv-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08);border-color:transparent}
+.sv-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--g);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.sv-card:hover::after{transform:scaleX(1)}
+.sv-card.cs::after{background:var(--gold)}
+.sv-ico{width:50px;height:50px;border-radius:14px;background:var(--g-light);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.5rem;transition:background .25s,transform .25s}
+.sv-card:hover .sv-ico{background:var(--g);transform:scale(1.05)}
+.sv-title{font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;color:var(--ink);margin-bottom:.5rem;display:flex;align-items:center;gap:.75rem}
+.cs-badge{font-family:'DM Sans',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--gold);background:rgba(201,146,10,.1);padding:.18rem .6rem;border-radius:50px;border:1px solid rgba(201,146,10,.2)}
+.sv-desc{font-size:.92rem;color:var(--muted);line-height:1.68}
+
+/* HOW IT WORKS */
+#hiw{background:#fff;padding:5.5rem 2rem}
+.hiw-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.hiw-frame{border-radius:var(--r-lg);overflow:hidden;background:linear-gradient(160deg,var(--g-dark),var(--g-mid));aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;position:relative}
+.hiw-caption{position:absolute;bottom:1.5rem;left:1.5rem;right:1.5rem;background:rgba(255,255,255,.1);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.15);border-radius:var(--r);padding:1rem 1.2rem;font-style:italic;font-family:'Playfair Display',serif;font-size:.9rem;color:rgba(255,255,255,.85);line-height:1.5}
+.hiw-step{display:flex;gap:1.25rem;padding:1.4rem 0;border-bottom:1px solid var(--border);transition:all .25s}
+.hiw-step:last-child{border-bottom:none}
+.hiw-step:hover .hiw-step-n{background:var(--g);color:#fff}
+.hiw-step-n{width:44px;height:44px;border-radius:12px;flex-shrink:0;background:var(--g-light);color:var(--g);font-family:'Playfair Display',serif;font-weight:900;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .25s;margin-top:.1rem}
+.hiw-step-t{font-weight:700;font-size:.95rem;color:var(--ink);margin-bottom:.3rem}
+.hiw-step-d{font-size:.88rem;color:var(--muted);line-height:1.62}
+.hiw-cta{margin-top:2.5rem}
+.btn-green{background:var(--g);color:#fff;font-weight:700;font-size:.88rem;padding:.82rem 1.9rem;border-radius:50px;transition:all .25s;box-shadow:0 4px 16px rgba(15,106,60,.22);display:inline-flex;align-items:center;gap:.5rem}
+.btn-green:hover{background:var(--g-mid);transform:translateY(-1px)}
+
+/* WHO WE SERVE */
+#wws{background:var(--g-dark);padding:5.5rem 2rem;position:relative;overflow:hidden}
+#wws::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 15% 50%,rgba(240,180,41,.08) 0%,transparent 50%),radial-gradient(circle at 85% 20%,rgba(15,106,60,.25) 0%,transparent 55%)}
+.wws-wrap{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.wws-header{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:3.5rem;align-items:end}
+.wws-desc{font-size:.95rem;color:rgba(255,255,255,.55);line-height:1.7;font-weight:300}
+.wws-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.wws-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:var(--r-lg);padding:1.75rem 1.5rem;transition:all .28s;cursor:default}
+.wws-card:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);transform:translateY(-3px)}
+.wws-ico{font-size:1.8rem;margin-bottom:1rem}
+.wws-name{font-family:'Playfair Display',serif;font-weight:700;font-size:.98rem;color:#fff;line-height:1.3;margin-bottom:.5rem}
+.wws-note{font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.55}
+
+/* VENDING SHOWCASE */
+#showcase{background:#fff;padding:5.5rem 2rem}
+.sc-wrap{max-width:1200px;margin:0 auto}
+.sc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:3rem}
+.sc-card{border-radius:var(--r-lg);overflow:hidden;position:relative;aspect-ratio:.78;cursor:default;border:1.5px solid var(--border);transition:border-color .3s}
+.sc-card:hover{border-color:transparent}
+.sc-card-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .55s var(--ease)}
+.sc-card:hover .sc-card-bg{transform:scale(1.06)}
+.sc-bg1{background:linear-gradient(160deg,#1a3d28 0%,#2d6b45 40%,#3d8a5a 100%)}
+.sc-bg2{background:linear-gradient(160deg,#1a2d3d 0%,#2b4a68 40%,#3a6088 100%)}
+.sc-bg3{background:linear-gradient(160deg,#3d2e1a 0%,#6b4f28 40%,#8b6835 100%)}
+.sc-ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1) 0%,rgba(0,0,0,.7) 100%);transition:background .35s}
+.sc-card:hover .sc-ov{background:linear-gradient(180deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.82) 100%)}
+.sc-machine{position:absolute;right:-10px;top:50%;transform:translateY(-50%);width:42%;opacity:.3;transition:opacity .35s,right .35s var(--ease);filter:drop-shadow(0 12px 28px rgba(0,0,0,.4))}
+.sc-card:hover .sc-machine{opacity:.6;right:0}
+.sc-env-tag{position:absolute;top:1.2rem;left:1.2rem;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:.65rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:.28rem .75rem;border-radius:50px}
+.sc-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:1.75rem}
+.sc-title{font-family:'Playfair Display',serif;font-weight:900;font-size:1.3rem;color:#fff;line-height:1.2;margin-bottom:.4rem}
+.sc-desc{font-size:.8rem;color:rgba(255,255,255,.65);line-height:1.55;margin-bottom:.85rem;max-height:0;overflow:hidden;transition:max-height .35s var(--ease),opacity .3s;opacity:0}
+.sc-card:hover .sc-desc{max-height:80px;opacity:1}
+.sc-tags{display:flex;gap:.5rem;flex-wrap:wrap}
+.sc-tag{font-size:.62rem;font-weight:700;letter-spacing:.4px;text-transform:uppercase;background:rgba(255,255,255,.12);color:rgba(255,255,255,.75);padding:.22rem .65rem;border-radius:50px;border:1px solid rgba(255,255,255,.15);transition:background .25s}
+.sc-card:hover .sc-tag{background:rgba(255,255,255,.2)}
+.sc-tag-hl{background:var(--g)!important;border-color:var(--g)!important;color:#fff!important}
+
+/* CTA BAND */
+#cta-band{background:var(--g);padding:4.5rem 2rem;position:relative;overflow:hidden}
+#cta-band::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 80% 50%,rgba(240,180,41,.12) 0%,transparent 50%)}
+.cb-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;position:relative;z-index:1}
+.cb-h2{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(1.6rem,3vw,2.3rem);color:#fff;line-height:1.2;letter-spacing:-.3px}
+.cb-h2 em{font-style:italic;color:var(--gold-lt)}
+.cb-sub{font-size:.92rem;color:rgba(255,255,255,.65);margin-top:.5rem}
+.cb-actions{display:flex;gap:.8rem;align-items:center;flex-shrink:0;flex-wrap:wrap}
+.btn-white{background:#fff;color:var(--g);font-weight:700;font-size:.85rem;padding:.8rem 1.8rem;border-radius:50px;transition:all .25s;box-shadow:0 4px 16px rgba(0,0,0,.1);display:inline-flex;align-items:center;gap:.5rem}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.18)}
+.btn-ghost-w{color:rgba(255,255,255,.8);font-size:.85rem;font-weight:600;padding:.8rem 1.2rem;border-radius:50px;border:1.5px solid rgba(255,255,255,.25);transition:all .25s;display:inline-flex;align-items:center;gap:.4rem}
+.btn-ghost-w:hover{background:rgba(255,255,255,.1);color:#fff}
+
+/* PRODUCTS PAGE */
+.prod-hdr{background:var(--g-dark);padding:4rem 2rem 3.5rem}
+.prod-hdr-inner{max-width:1200px;margin:0 auto}
+.prod-h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2rem,4vw,3.2rem);color:#fff;letter-spacing:-1px;margin-bottom:.5rem}
+.prod-h1 em{font-style:italic;color:var(--gold-lt)}
+.prod-sub{font-size:.98rem;color:rgba(255,255,255,.6);max-width:500px;font-weight:300}
+
+/* PRODUCT TABS — centered & prominent */
+.ptabs-bar{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:66px;z-index:800}
+.ptabs-inner{max-width:1200px;margin:0 auto;padding:1.4rem 2rem 0;display:flex;flex-direction:column;align-items:center;gap:.85rem}
+.ptabs-lbl{font-size:.68rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
+.ptabs-list{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;padding-bottom:1.4rem}
+.tab-pill{display:inline-flex;align-items:center;gap:.5rem;background:var(--cream);border:1.5px solid var(--border);border-radius:50px;padding:.52rem 1.2rem;font-size:.78rem;font-weight:700;color:var(--muted);white-space:nowrap;cursor:pointer;transition:all .22s}
+.tab-pill:hover{color:var(--g);border-color:var(--g);background:var(--g-light)}
+.tab-pill.on{background:var(--g);color:#fff;border-color:var(--g);box-shadow:0 4px 16px rgba(15,106,60,.28)}
+.pill-cnt{font-size:.64rem;font-weight:700;font-family:'DM Mono',monospace;background:rgba(0,0,0,.08);padding:.1rem .4rem;border-radius:50px}
+.tab-pill.on .pill-cnt{background:rgba(255,255,255,.2)}
+
+/* Product content */
+.prod-content{padding:3.5rem 2rem 5rem}
+.prod-ci{max-width:1200px;margin:0 auto}
+.tab-panel{display:none}
+.tab-panel.on{display:block;animation:fadeUp .3s var(--ease)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.panel-title{font-family:'Playfair Display',serif;font-weight:900;font-size:1.6rem;color:var(--ink);margin-bottom:.3rem}
+.panel-desc{font-size:.9rem;color:var(--muted);margin-bottom:2.25rem}
+.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
+.prod-card{background:#fff;border-radius:var(--r-lg);border:1.5px solid var(--border);overflow:hidden;transition:all .28s;cursor:default;position:relative}
+.prod-card:hover{transform:translateY(-4px);box-shadow:0 16px 44px rgba(0,0,0,.1);border-color:transparent}
+.prod-card:hover .prod-img{transform:scale(1.06)}
+.prod-imgw{height:156px;background:var(--cream);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.prod-img{font-size:3rem;transition:transform .4s}
+.prod-body{padding:1.1rem 1.2rem 1.3rem}
+.prod-cat{font-size:.62rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--g);margin-bottom:.35rem;font-family:'DM Mono',monospace}
+.prod-name{font-family:'Playfair Display',serif;font-weight:700;font-size:.95rem;color:var(--ink);line-height:1.3;margin-bottom:.3rem}
+.prod-desc{font-size:.77rem;color:var(--muted);line-height:1.52}
+.pbadge{position:absolute;top:.7rem;right:.7rem;font-size:.58rem;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:.18rem .55rem;border-radius:50px}
+.pb-pop{background:var(--g);color:#fff}
+.pb-new{background:var(--gold-lt);color:var(--ink)}
+.pb-prot{background:#2563eb;color:#fff}
+.pb-hlth{background:#059669;color:#fff}
+.prod-note{margin-top:2.5rem;padding:1.2rem 1.5rem;background:var(--cream);border-radius:var(--r);border:1px solid var(--border);font-size:.83rem;color:var(--muted);line-height:1.65}
+.prod-note strong{color:var(--g)}
+
+/* FOOTER */
+footer{background:var(--ink);padding:4rem 2rem 1.75rem}
+.ft-inner{max-width:1200px;margin:0 auto}
+.ft-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:3rem}
+.ft-desc{font-size:.83rem;color:rgba(255,255,255,.4);line-height:1.7;margin-top:.9rem}
+.ft-ct{font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:.9rem}
+.ft-lk{display:block;font-size:.83rem;color:rgba(255,255,255,.38);padding:.27rem 0;transition:color .2s}
+.ft-lk:hover{color:var(--gold-lt)}
+.ft-hr{border:none;border-top:1px solid rgba(255,255,255,.07);margin-bottom:1.4rem}
+.ft-bot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.ft-copy{font-size:.78rem;color:rgba(255,255,255,.28)}
+.ft-copy strong{color:rgba(255,255,255,.45)}
+.ft-bls{display:flex;gap:1.5rem}
+.ft-bls a{font-size:.75rem;color:rgba(255,255,255,.28);transition:color .2s}
+.ft-bls a:hover{color:var(--gold-lt)}
+
+/* MODAL */
+.mbg{display:none;position:fixed;inset:0;z-index:2000;background:rgba(8,22,15,.55);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:1.5rem}
+.mbg.on{display:flex}
+.modal{background:#fff;border-radius:var(--r-lg);max-width:490px;width:100%;padding:2.5rem;box-shadow:0 32px 80px rgba(0,0,0,.22);animation:mIn .32s cubic-bezier(.34,1.56,.64,1)}
+@keyframes mIn{from{opacity:0;transform:scale(.93) translateY(12px)}to{opacity:1;transform:none}}
+.modal-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem}
+.modal-t{font-family:'Playfair Display',serif;font-weight:900;font-size:1.4rem;color:var(--ink)}
+.modal-s{font-size:.85rem;color:var(--muted);margin-top:.2rem}
+.modal-x{width:32px;height:32px;border-radius:50%;background:var(--cream);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--muted);flex-shrink:0;margin-left:1rem;transition:all .2s}
+.modal-x:hover{background:var(--border);color:var(--ink)}
+.fg{margin-bottom:1rem}
+.fl{display:block;font-size:.77rem;font-weight:700;color:var(--muted);margin-bottom:.35rem}
+.fi,.fsel,.fta{width:100%;padding:.68rem .95rem;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--ink);background:#fff;transition:border-color .2s,box-shadow .2s}
+.fi:focus,.fsel:focus,.fta:focus{outline:none;border-color:var(--g);box-shadow:0 0 0 3px rgba(15,106,60,.1)}
+.fta{resize:vertical;min-height:88px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.mfoot{margin-top:1.5rem}
+.btn-modal{width:100%;background:var(--g);color:#fff;font-weight:700;font-size:.88rem;padding:.82rem 1.5rem;border-radius:50px;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.btn-modal:hover{background:var(--g-mid);transform:translateY(-1px)}
+.mok{display:none;text-align:center;padding:1.5rem 0}
+.mok-ic{font-size:2.8rem;margin-bottom:.75rem}
+.mok-t{font-family:'Playfair Display',serif;font-weight:900;font-size:1.2rem;color:var(--g);margin-bottom:.4rem}
+.mok-s{font-size:.88rem;color:var(--muted)}
+.btn-ok{margin-top:1.5rem;padding:.72rem 1.8rem;border-radius:50px;background:var(--g-light);color:var(--g);font-weight:700;font-size:.85rem;transition:background .2s}
+.btn-ok:hover{background:#cce5d8}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .55s var(--ease),transform .55s var(--ease)}
+.rv.vis{opacity:1;transform:none}
+.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}.rv.d4{transition-delay:.32s}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .hero-inner{grid-template-columns:1fr;padding-top:3rem}
+  .hero-right{display:none}
+  .pc-grid{grid-template-columns:repeat(3,1fr)}
+  .wws-grid{grid-template-columns:repeat(2,1fr)}
+  .sc-grid{grid-template-columns:1fr 1fr}
+  .prod-grid{grid-template-columns:repeat(3,1fr)}
+  .ft-grid{grid-template-columns:1fr 1fr}
+  .cb-inner{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .nav-links{display:none}.ham{display:flex}
+  .sv-grid{grid-template-columns:1fr}
+  .hiw-wrap{grid-template-columns:1fr}
+  .hiw-media-col{display:none}
+  .pc-grid{grid-template-columns:repeat(2,1fr)}
+  .wws-header{grid-template-columns:1fr}
+  .sc-grid{grid-template-columns:1fr}
+  .prod-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:540px){
+  .wws-grid{grid-template-columns:1fr 1fr}
+  .prod-grid{grid-template-columns:1fr}
+  .ft-grid{grid-template-columns:1fr}
+  .f2{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header id="nav">
+  <div class="nav-wrap">
+    <a class="logo" href="#" onclick="go('home');return false">
+      <svg class="logo-mark" viewBox="0 0 38 38" fill="none">
+        <rect width="38" height="38" rx="10" fill="#0F6A3C"/>
+        <path d="M11 14.5C11 12.567 12.567 11 14.5 11H18.5a4 4 0 010 8H14.5a4 4 0 000 8H24.5" stroke="#F0B429" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M27 23.5c0 1.657-1.343 3-3 3h-5" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="27" cy="11.5" r="1.8" fill="#F0B429"/>
+      </svg>
+      <div>
+        <div class="logo-name">Simple Serve</div>
+        <div class="logo-tag">Trusted. Reliable. Simple.</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a class="nl on" data-pg="home" href="#" onclick="go('home');return false">Home</a>
+      <a class="nl" data-pg="products" href="#" onclick="go('products');return false">Products</a>
+      <a class="nl" href="#" onclick="scrollTo2('services');return false">Services</a>
+      <a class="nl" href="#" onclick="scrollTo2('hiw');return false">How It Works</a>
+      <button class="nav-btn" onclick="openM()">Get a Machine →</button>
+    </div>
+    <button class="ham" id="hamBtn" onclick="toggleMob()"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mob-nav" id="mobNav">
+    <a class="nl" href="#" onclick="go('home');closeMob();return false">Home</a>
+    <a class="nl" href="#" onclick="go('products');closeMob();return false">Products</a>
+    <a class="nl" href="#" onclick="scrollTo2('services');closeMob();return false">Services</a>
+    <a class="nl" href="#" onclick="scrollTo2('hiw');closeMob();return false">How It Works</a>
+    <button class="nav-btn" onclick="openM();closeMob()">Get a Machine →</button>
+  </div>
+</header>
+
+<!-- ═══ HOME ══════════════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-noise"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-pill"><span class="pill-dot"></span>Now serving workplaces across the UK</div>
+      <h1 class="hero-h1">Simple Solutions<br>for <em>Modern</em><br>Workplaces.</h1>
+      <p class="hero-sub">Reliable workplace vending — installed free, fully managed, and stocked with everything your team needs. More business services coming soon.</p>
+      <div class="hero-actions">
+        <button class="btn-gold-hero" onclick="openM()">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          Request a Machine
+        </button>
+        <a class="btn-ghost-hero" href="#" onclick="go('products');return false">View Products <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="hstat-n">Free</div><div class="hstat-l">Installation</div></div>
+        <div><div class="hstat-n">100%</div><div class="hstat-l">Managed</div></div>
+        <div><div class="hstat-n">24/7</div><div class="hstat-l">Support</div></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="mcard">
+        <div class="mcard-head">
+          <span class="mcard-label">Today's Picks</span>
+          <span class="mcard-live"><span class="mcard-live-dot"></span>Live</span>
+        </div>
+        <div class="mcard-body">
+          <div style="width:90px;flex-shrink:0">
+            <svg viewBox="0 0 80 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="5" y="2" width="70" height="116" rx="8" fill="#0a3520"/>
+              <rect x="5" y="2" width="70" height="116" rx="8" fill="url(#mg)"/>
+              <rect x="12" y="10" width="56" height="72" rx="5" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)" stroke-width=".8"/>
+              <text x="40" y="34" text-anchor="middle" font-size="9">🥤</text>
+              <text x="22" y="34" text-anchor="middle" font-size="9">🍫</text>
+              <text x="58" y="34" text-anchor="middle" font-size="9">☕</text>
+              <text x="40" y="56" text-anchor="middle" font-size="9">🥜</text>
+              <text x="22" y="56" text-anchor="middle" font-size="9">🍎</text>
+              <text x="58" y="56" text-anchor="middle" font-size="9">⚡</text>
+              <text x="40" y="76" text-anchor="middle" font-size="9">🧃</text>
+              <text x="22" y="76" text-anchor="middle" font-size="9">🍿</text>
+              <text x="58" y="76" text-anchor="middle" font-size="9">🥗</text>
+              <rect x="12" y="88" width="33" height="18" rx="3" fill="rgba(15,106,60,.5)"/>
+              <text x="28.5" y="100" text-anchor="middle" font-size="4.5" fill="rgba(255,255,255,.5)" font-family="monospace">SELECT ITEM</text>
+              <rect x="50" y="88" width="18" height="18" rx="3" fill="rgba(0,0,0,.2)"/>
+              <circle cx="57" cy="95" r="2" fill="rgba(255,255,255,.15)"/>
+              <circle cx="64" cy="95" r="2" fill="rgba(240,180,41,.5)"/>
+              <circle cx="57" cy="102" r="2" fill="rgba(255,255,255,.15)"/>
+              <circle cx="64" cy="102" r="2" fill="rgba(255,255,255,.15)"/>
+              <rect x="12" y="110" width="56" height="6" rx="2" fill="rgba(0,0,0,.25)"/>
+              <defs>
+                <linearGradient id="mg" x1="5" y1="2" x2="75" y2="118" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#1a5c38"/><stop offset="1" stop-color="#083520"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="picks-grid">
+            <div class="pick"><span class="pick-e">🥤</span><div class="pick-n">Cold Drink</div><div class="pick-p">£1.50</div></div>
+            <div class="pick"><span class="pick-e">🍫</span><div class="pick-n">Chocolate</div><div class="pick-p">£1.20</div></div>
+            <div class="pick"><span class="pick-e">☕</span><div class="pick-n">Hot Coffee</div><div class="pick-p">£1.80</div></div>
+            <div class="pick"><span class="pick-e">🥜</span><div class="pick-n">Nuts &amp; Seeds</div><div class="pick-p">£1.30</div></div>
+            <div class="pick"><span class="pick-e">🍿</span><div class="pick-n">Biscuits</div><div class="pick-p">£0.90</div></div>
+            <div class="pick" style="border:1px solid rgba(240,180,41,.35);background:rgba(240,180,41,.1)"><span class="pick-e">💧</span><div class="pick-n">Water</div><div class="pick-p">£0.80</div></div>
+          </div>
+        </div>
+        <div class="mcard-foot">
+          <span class="mcard-info">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            Restocked 2 hrs ago
+          </span>
+          <span class="mcard-info">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            0.3m away
+          </span>
+          <button class="mcard-cta" onclick="openM()">Get Directions</button>
+        </div>
+      </div>
+      <div class="loc-pill">
+        <div class="loc-ico">📍</div>
+        <div>
+          <div class="loc-t">Nearest machine: 30m away</div>
+          <div class="loc-s">Fully stocked · Last checked today</div>
+        </div>
+        <svg style="margin-left:auto;color:rgba(255,255,255,.25)" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAT STRIP -->
+<div id="cat-strip">
+  <div class="cat-strip-inner">
+    <span class="cat-lbl">We stock:</span>
+    <div class="chip">🍿 Snacks &amp; Crisps</div>
+    <div class="chip">⚡ Energy Drinks</div>
+    <div class="chip">🥗 Daily Essentials</div>
+    <div class="chip">🥤 Cold Beverages</div>
+    <div class="chip">☕ Hot Coffee</div>
+    <div class="chip">🍫 Chocolates &amp; Candy</div>
+    <div class="chip">🌿 Healthy Snacks</div>
+    <div class="chip">💪 Protein &amp; Fitness</div>
+    <div class="chip">💧 Water &amp; Hydration</div>
+  </div>
+</div>
+
+<!-- PRODUCT CATEGORIES -->
+<section id="prod-cats">
+  <div class="pc-wrap">
+    <div class="pc-header rv">
+      <div>
+        <div class="sec-eyebrow">What We Stock</div>
+        <h2 class="sec-h2">Something for <em>everyone</em></h2>
+        <p class="sec-sub">From quick snacks to energy boosts — curated selections to keep your workplace running.</p>
+      </div>
+      <button class="btn-green-sm" onclick="go('products')">Browse all products <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="pc-grid rv">
+      <div class="pc-tile t1" onclick="go('products')">
+        <div class="pc-tile-bg">🍿</div><div class="pc-tile-ov"></div>
+        <div class="pc-tile-body">
+          <div class="pc-tile-name">Snacks</div>
+          <div class="pc-tile-count">8 Products</div>
+          <div class="pc-tile-btn">Browse <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </div>
+      </div>
+      <div class="pc-tile t2" onclick="go('products');switchTab('drinks',null)">
+        <div class="pc-tile-bg">🥤</div><div class="pc-tile-ov"></div>
+        <div class="pc-tile-body">
+          <div class="pc-tile-name">Drinks</div>
+          <div class="pc-tile-count">8 Products</div>
+          <div class="pc-tile-btn">Browse <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </div>
+      </div>
+      <div class="pc-tile t3" onclick="go('products');switchTab('healthy',null)">
+        <div class="pc-tile-bg">🥗</div><div class="pc-tile-ov"></div>
+        <div class="pc-tile-body">
+          <div class="pc-tile-name">Healthy Options</div>
+          <div class="pc-tile-count">8 Products</div>
+          <div class="pc-tile-btn">Browse <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </div>
+      </div>
+      <div class="pc-tile t4" onclick="go('products');switchTab('energy',null)">
+        <div class="pc-tile-bg">⚡</div><div class="pc-tile-ov"></div>
+        <div class="pc-tile-body">
+          <div class="pc-tile-name">Energy &amp; Performance</div>
+          <div class="pc-tile-count">8 Products</div>
+          <div class="pc-tile-btn">Browse <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </div>
+      </div>
+      <div class="pc-tile t5" onclick="go('products');switchTab('custom',null)">
+        <div class="pc-tile-bg">🏷️</div><div class="pc-tile-ov"></div>
+        <div class="pc-tile-body">
+          <div class="pc-tile-name">Custom Selections</div>
+          <div class="pc-tile-count">8 Products</div>
+          <div class="pc-tile-btn">Browse <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="sv-wrap">
+    <div class="rv">
+      <div class="sec-eyebrow">What We Offer</div>
+      <h2 class="sec-h2">Our <em>Services</em></h2>
+      <p class="sec-sub">Built around your workplace — reliable today, expanding tomorrow.</p>
+    </div>
+    <div class="sv-grid">
+      <div class="sv-card rv d1">
+        <div class="sv-ico">🏪</div>
+        <h3 class="sv-title">Workplace Vending Solutions</h3>
+        <p class="sv-desc">Modern snack and drink vending machines for workplaces. Fully managed, stocked, and maintained at no cost to you — just happy staff and visitors.</p>
+      </div>
+      <div class="sv-card cs rv d2">
+        <div class="sv-ico">🚚</div>
+        <h3 class="sv-title">Logistics &amp; Delivery <span class="cs-badge">Coming Soon</span></h3>
+        <p class="sv-desc">Reliable business logistics solutions are on the way. We're expanding our service offerings to meet the wider needs of modern businesses.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="hiw">
+  <div class="hiw-wrap">
+    <div class="hiw-media-col rv">
+      <div class="hiw-frame">
+        <svg viewBox="0 0 320 420" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:85%">
+          <rect x="0" y="360" width="320" height="60" fill="rgba(255,255,255,.04)"/>
+          <rect x="20" y="30" width="100" height="200" rx="4" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+          <line x1="70" y1="30" x2="70" y2="230" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+          <line x1="20" y1="130" x2="120" y2="130" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+          <rect x="0" y="300" width="200" height="10" rx="2" fill="rgba(255,255,255,.1)"/>
+          <rect x="10" y="310" width="8" height="50" rx="2" fill="rgba(255,255,255,.07)"/>
+          <rect x="172" y="310" width="8" height="50" rx="2" fill="rgba(255,255,255,.07)"/>
+          <rect x="40" y="240" width="100" height="65" rx="4" fill="rgba(15,106,60,.35)" stroke="rgba(255,255,255,.1)"/>
+          <rect x="80" y="305" width="20" height="6" rx="1" fill="rgba(255,255,255,.08)"/>
+          <circle cx="90" cy="220" r="18" fill="rgba(255,255,255,.13)"/>
+          <rect x="70" y="238" width="40" height="55" rx="8" fill="rgba(255,255,255,.09)"/>
+          <rect x="215" y="180" width="80" height="180" rx="8" fill="rgba(15,106,60,.5)" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+          <rect x="222" y="188" width="66" height="100" rx="4" fill="rgba(255,255,255,.07)"/>
+          <text x="255" y="228" text-anchor="middle" font-size="14">🥤</text>
+          <text x="238" y="228" text-anchor="middle" font-size="14">🍫</text>
+          <text x="272" y="228" text-anchor="middle" font-size="14">🥜</text>
+          <text x="255" y="256" text-anchor="middle" font-size="14">☕</text>
+          <text x="238" y="256" text-anchor="middle" font-size="14">🍎</text>
+          <text x="272" y="256" text-anchor="middle" font-size="14">⚡</text>
+          <rect x="222" y="296" width="40" height="28" rx="3" fill="rgba(15,106,60,.6)"/>
+          <rect x="267" y="296" width="21" height="28" rx="3" fill="rgba(0,0,0,.2)"/>
+          <rect x="222" y="332" width="66" height="16" rx="2" fill="rgba(0,0,0,.2)"/>
+          <rect x="215" y="356" width="80" height="4" rx="1" fill="url(#mbg2)"/>
+          <defs><linearGradient id="mbg2" x1="215" y1="0" x2="295" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#D4A017"/><stop offset=".5" stop-color="#F0B429"/><stop offset="1" stop-color="#D4A017"/></linearGradient></defs>
+        </svg>
+        <div class="hiw-caption">"Fully managed. Zero effort for your team."</div>
+      </div>
+    </div>
+    <div class="rv d1">
+      <div class="sec-eyebrow">The Process</div>
+      <h2 class="sec-h2">Vending Made <em>Simple</em></h2>
+      <p class="sec-sub" style="margin-bottom:0">We provide fully managed vending machines for workplaces. There is no cost to your business — we install, stock, and maintain the machine.</p>
+      <div style="margin-top:.5rem">
+        <div class="hiw-step">
+          <div class="hiw-step-n">1</div>
+          <div><div class="hiw-step-t">Free Installation</div><div class="hiw-step-d">We install a modern vending machine at your site at absolutely no cost. All we need is a suitable space and a power outlet.</div></div>
+        </div>
+        <div class="hiw-step">
+          <div class="hiw-step-n">2</div>
+          <div><div class="hiw-step-t">Fully Managed Service</div><div class="hiw-step-d">We handle all restocking and maintenance. Your team never needs to worry about an empty machine or a service issue.</div></div>
+        </div>
+        <div class="hiw-step">
+          <div class="hiw-step-n">3</div>
+          <div><div class="hiw-step-t">Convenient Refreshments</div><div class="hiw-step-d">Staff and visitors enjoy easy, round-the-clock access to a curated selection of snacks and drinks chosen for your workplace.</div></div>
+        </div>
+      </div>
+      <div class="hiw-cta"><button class="btn-green" onclick="openM()">Request a Machine <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO WE SERVE -->
+<section id="wws">
+  <div class="wws-wrap">
+    <div class="wws-header">
+      <div class="rv">
+        <div class="sec-eyebrow" style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.15)">Industries</div>
+        <h2 class="sec-h2" style="color:#fff">Who We<br><em>Serve</em></h2>
+      </div>
+      <div class="rv d1"><p class="wws-desc">From busy office floors to hospital waiting areas — if your people need reliable refreshments, we have a solution tailored for your environment.</p></div>
+    </div>
+    <div class="wws-grid">
+      <div class="wws-card rv d1"><div class="wws-ico">🏢</div><div class="wws-name">Offices &amp; Business Parks</div><div class="wws-note">Convenient refreshments for employees and visitors throughout the working day.</div></div>
+      <div class="wws-card rv d2"><div class="wws-ico">🏥</div><div class="wws-name">Clinics &amp; Healthcare</div><div class="wws-note">Nutritious options for staff and patients in clinical and healthcare environments.</div></div>
+      <div class="wws-card rv d3"><div class="wws-ico">💪</div><div class="wws-name">Gyms &amp; Fitness Centres</div><div class="wws-note">Snacks and performance products for an active membership base.</div></div>
+      <div class="wws-card rv d4"><div class="wws-ico">🏭</div><div class="wws-name">Warehouses &amp; Industrial</div><div class="wws-note">Hearty, energy-dense products to fuel shift workers all day long.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- VENDING SHOWCASE -->
+<section id="showcase">
+  <div class="sc-wrap">
+    <div class="rv" style="text-align:center;max-width:600px;margin:0 auto 3rem">
+      <div class="sec-eyebrow">See It In Action</div>
+      <h2 class="sec-h2">Machines built for <em>real</em> workplaces</h2>
+      <p class="sec-sub" style="margin:0 auto">Hover to explore how our machines fit seamlessly into every setting.</p>
+    </div>
+    <div class="sc-grid">
+      <div class="sc-card rv d1">
+        <div class="sc-card-bg sc-bg1"></div>
+        <div class="sc-ov"></div>
+        <svg class="sc-machine" viewBox="0 0 120 200" fill="none">
+          <rect x="10" y="5" width="100" height="190" rx="10" fill="rgba(15,106,60,.75)" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+          <rect x="18" y="14" width="84" height="120" rx="6" fill="rgba(255,255,255,.08)"/>
+          <text x="60" y="50" text-anchor="middle" font-size="18">🥤</text><text x="35" y="50" text-anchor="middle" font-size="18">🍫</text><text x="85" y="50" text-anchor="middle" font-size="18">☕</text>
+          <text x="60" y="88" text-anchor="middle" font-size="18">🥜</text><text x="35" y="88" text-anchor="middle" font-size="18">🍎</text><text x="85" y="88" text-anchor="middle" font-size="18">⚡</text>
+          <text x="60" y="124" text-anchor="middle" font-size="18">🧃</text><text x="35" y="124" text-anchor="middle" font-size="18">🍿</text><text x="85" y="124" text-anchor="middle" font-size="18">🥗</text>
+          <rect x="18" y="140" width="55" height="34" rx="4" fill="rgba(15,106,60,.5)"/>
+          <rect x="78" y="140" width="24" height="34" rx="4" fill="rgba(0,0,0,.25)"/>
+          <rect x="18" y="180" width="84" height="10" rx="2" fill="rgba(0,0,0,.2)"/>
+        </svg>
+        <div class="sc-env-tag">🏢 Office</div>
+        <div class="sc-content">
+          <div class="sc-title">Office &amp; Business Parks</div>
+          <div class="sc-desc">Keep your team fuelled all day with a curated selection of snacks, drinks and healthy options — installed and managed free of charge.</div>
+          <div class="sc-tags"><span class="sc-tag sc-tag-hl">Free Install</span><span class="sc-tag">Fully Managed</span><span class="sc-tag">50+ Products</span></div>
+        </div>
+      </div>
+      <div class="sc-card rv d2">
+        <div class="sc-card-bg sc-bg2"></div>
+        <div class="sc-ov"></div>
+        <svg class="sc-machine" viewBox="0 0 120 200" fill="none">
+          <rect x="10" y="5" width="100" height="190" rx="10" fill="rgba(15,50,80,.75)" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+          <rect x="18" y="14" width="84" height="120" rx="6" fill="rgba(255,255,255,.08)"/>
+          <text x="60" y="50" text-anchor="middle" font-size="18">🍎</text><text x="35" y="50" text-anchor="middle" font-size="18">🥤</text><text x="85" y="50" text-anchor="middle" font-size="18">🧃</text>
+          <text x="60" y="88" text-anchor="middle" font-size="18">🌿</text><text x="35" y="88" text-anchor="middle" font-size="18">🥗</text><text x="85" y="88" text-anchor="middle" font-size="18">💧</text>
+          <text x="60" y="124" text-anchor="middle" font-size="18">☕</text><text x="35" y="124" text-anchor="middle" font-size="18">🍪</text><text x="85" y="124" text-anchor="middle" font-size="18">🫘</text>
+          <rect x="18" y="140" width="55" height="34" rx="4" fill="rgba(15,50,80,.5)"/>
+          <rect x="78" y="140" width="24" height="34" rx="4" fill="rgba(0,0,0,.25)"/>
+          <rect x="18" y="180" width="84" height="10" rx="2" fill="rgba(0,0,0,.2)"/>
+        </svg>
+        <div class="sc-env-tag">🏥 Healthcare</div>
+        <div class="sc-content">
+          <div class="sc-title">Clinics &amp; Healthcare Centres</div>
+          <div class="sc-desc">Nutritious, low-sugar options thoughtfully selected for clinical environments — for staff, patients and visitors alike.</div>
+          <div class="sc-tags"><span class="sc-tag sc-tag-hl">Healthy Range</span><span class="sc-tag">Low Sugar</span><span class="sc-tag">Patient-Friendly</span></div>
+        </div>
+      </div>
+      <div class="sc-card rv d3">
+        <div class="sc-card-bg sc-bg3"></div>
+        <div class="sc-ov"></div>
+        <svg class="sc-machine" viewBox="0 0 120 200" fill="none">
+          <rect x="10" y="5" width="100" height="190" rx="10" fill="rgba(70,45,20,.75)" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+          <rect x="18" y="14" width="84" height="120" rx="6" fill="rgba(255,255,255,.08)"/>
+          <text x="60" y="50" text-anchor="middle" font-size="18">⚡</text><text x="35" y="50" text-anchor="middle" font-size="18">💪</text><text x="85" y="50" text-anchor="middle" font-size="18">🏋️</text>
+          <text x="60" y="88" text-anchor="middle" font-size="18">🧃</text><text x="35" y="88" text-anchor="middle" font-size="18">🥤</text><text x="85" y="88" text-anchor="middle" font-size="18">🏃</text>
+          <text x="60" y="124" text-anchor="middle" font-size="18">🫘</text><text x="35" y="124" text-anchor="middle" font-size="18">🔋</text><text x="85" y="124" text-anchor="middle" font-size="18">💊</text>
+          <rect x="18" y="140" width="55" height="34" rx="4" fill="rgba(70,45,20,.5)"/>
+          <rect x="78" y="140" width="24" height="34" rx="4" fill="rgba(0,0,0,.25)"/>
+          <rect x="18" y="180" width="84" height="10" rx="2" fill="rgba(0,0,0,.2)"/>
+        </svg>
+        <div class="sc-env-tag">💪 Fitness</div>
+        <div class="sc-content">
+          <div class="sc-title">Gyms &amp; Fitness Centres</div>
+          <div class="sc-desc">High-protein bars, energy drinks and recovery products — perfectly matched to the needs of an active fitness membership.</div>
+          <div class="sc-tags"><span class="sc-tag sc-tag-hl">High Protein</span><span class="sc-tag">Energy Drinks</span><span class="sc-tag">Recovery</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section id="cta-band">
+  <div class="cb-inner">
+    <div class="rv">
+      <h2 class="cb-h2">Ready to upgrade your<br><em>workplace refreshments?</em></h2>
+      <p class="cb-sub">Free installation. Fully managed. No commitment needed to enquire.</p>
+    </div>
+    <div class="cb-actions rv d1">
+      <button class="btn-white" onclick="openM()">Request a Machine</button>
+      <button class="btn-ghost-w" onclick="go('products')">View Products →</button>
+    </div>
+  </div>
+</section>
+</div><!-- /page-home -->
+
+<!-- ═══ PRODUCTS PAGE ══════════════════════════════════════════ -->
+<div id="page-products" class="page">
+  <div class="prod-hdr">
+    <div class="prod-hdr-inner">
+      <div class="sec-eyebrow" style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.15);margin-bottom:.75rem">Our Range</div>
+      <h1 class="prod-h1">Product <em>Range</em></h1>
+      <p class="prod-sub">Browse our curated selection — snacks, drinks, healthy options and more for modern workplaces.</p>
+    </div>
+  </div>
+
+  <div class="ptabs-bar">
+    <div class="ptabs-inner">
+      <div class="ptabs-lbl">Browse by category</div>
+      <div class="ptabs-list">
+        <button class="tab-pill on" onclick="switchTab('snacks',this)"><span>🍿</span> Snacks <span class="pill-cnt">8</span></button>
+        <button class="tab-pill" onclick="switchTab('drinks',this)"><span>🥤</span> Drinks <span class="pill-cnt">8</span></button>
+        <button class="tab-pill" onclick="switchTab('healthy',this)"><span>🥗</span> Healthy Options <span class="pill-cnt">8</span></button>
+        <button class="tab-pill" onclick="switchTab('energy',this)"><span>⚡</span> Energy &amp; Performance <span class="pill-cnt">8</span></button>
+        <button class="tab-pill" onclick="switchTab('custom',this)"><span>🏷️</span> Custom Selections <span class="pill-cnt">8</span></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="prod-content">
+    <div class="prod-ci">
+      <div id="tab-snacks" class="tab-panel on">
+        <div class="panel-title">Snacks</div>
+        <div class="panel-desc">Popular everyday snacks to keep your team fuelled throughout the day.</div>
+        <div class="prod-grid" id="grid-snacks"></div>
+      </div>
+      <div id="tab-drinks" class="tab-panel">
+        <div class="panel-title">Drinks</div>
+        <div class="panel-desc">A refreshing range of cold and hot beverages for every taste.</div>
+        <div class="prod-grid" id="grid-drinks"></div>
+      </div>
+      <div id="tab-healthy" class="tab-panel">
+        <div class="panel-title">Healthy Options</div>
+        <div class="panel-desc">Nutritious choices for health-conscious staff and visitors.</div>
+        <div class="prod-grid" id="grid-healthy"></div>
+      </div>
+      <div id="tab-energy" class="tab-panel">
+        <div class="panel-title">Energy &amp; Performance</div>
+        <div class="panel-desc">Products designed to power through the day — ideal for gyms, warehouses, and active workplaces.</div>
+        <div class="prod-grid" id="grid-energy"></div>
+      </div>
+      <div id="tab-custom" class="tab-panel">
+        <div class="panel-title">Custom Workplace Selections</div>
+        <div class="panel-desc">Tailored product mixes to match your workplace culture and preferences.</div>
+        <div class="prod-grid" id="grid-custom"></div>
+      </div>
+      <div class="prod-note rv">
+        <strong>Please note:</strong> Products may vary depending on supplier availability and location preferences.<br>
+        <span style="font-size:.8rem;color:#9ca3af">Product brands shown are examples and may vary. All trademarks are the property of their respective owners.</span>
+      </div>
+    </div>
+  </div>
+</div><!-- /page-products -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-inner">
+    <div class="ft-grid">
+      <div>
+        <a class="logo" href="#" onclick="go('home');return false" style="margin-bottom:.85rem;display:inline-flex">
+          <svg style="width:36px;height:36px;flex-shrink:0" viewBox="0 0 38 38" fill="none">
+            <rect width="38" height="38" rx="10" fill="#0F6A3C"/>
+            <path d="M11 14.5C11 12.567 12.567 11 14.5 11H18.5a4 4 0 010 8H14.5a4 4 0 000 8H24.5" stroke="#F0B429" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M27 23.5c0 1.657-1.343 3-3 3h-5" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="27" cy="11.5" r="1.8" fill="#F0B429"/>
+          </svg>
+          <div style="margin-left:.6rem">
+            <div class="logo-name" style="color:#fff">Simple Serve</div>
+            <div class="logo-tag" style="color:rgba(255,255,255,.3)">Trusted. Reliable. Simple.</div>
+          </div>
+        </a>
+        <p class="ft-desc">Providing reliable workplace vending solutions with a fully managed, hassle-free service. Expanding our business services soon.</p>
+      </div>
+      <div>
+        <div class="ft-ct">Navigate</div>
+        <a class="ft-lk" href="#" onclick="go('home');return false">Home</a>
+        <a class="ft-lk" href="#" onclick="go('products');return false">Products</a>
+        <a class="ft-lk" href="#" onclick="scrollTo2('services');return false">Services</a>
+        <a class="ft-lk" href="#" onclick="scrollTo2('hiw');return false">How It Works</a>
+        <a class="ft-lk" href="#" onclick="scrollTo2('wws');return false">Who We Serve</a>
+      </div>
+      <div>
+        <div class="ft-ct">Services</div>
+        <a class="ft-lk" href="#">Workplace Vending</a>
+        <a class="ft-lk" href="#">Free Machine Install</a>
+        <a class="ft-lk" href="#">Managed Restocking</a>
+        <a class="ft-lk" href="#">Logistics <span style="font-size:.65rem;color:var(--gold-lt)">(Soon)</span></a>
+      </div>
+      <div>
+        <div class="ft-ct">Contact</div>
+        <a class="ft-lk" href="#" onclick="openM();return false">Request a Machine</a>
+        <a class="ft-lk" href="#">Contact Us</a>
+        <a class="ft-lk" href="#">FAQ</a>
+        <div style="margin-top:1.2rem">
+          <div class="ft-ct">Location</div>
+          <span style="font-size:.82rem;color:rgba(255,255,255,.28)">Serving businesses nationwide</span>
+        </div>
+      </div>
+    </div>
+    <hr class="ft-hr"/>
+    <div class="ft-bot">
+      <span class="ft-copy">© <strong>Simple Serve Ltd</strong> 2025. All rights reserved.</span>
+      <div class="ft-bls"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="mbg" id="mBg" onclick="handleBgClick(event)">
+  <div class="modal">
+    <div id="mForm">
+      <div class="modal-head">
+        <div><div class="modal-t">Request a Vending Machine</div><div class="modal-s">Fill in your details — we'll be in touch within 24 hours.</div></div>
+        <button class="modal-x" onclick="closeM()">✕</button>
+      </div>
+      <div class="f2">
+        <div class="fg"><label class="fl">First Name</label><input class="fi" type="text" placeholder="John"/></div>
+        <div class="fg"><label class="fl">Last Name</label><input class="fi" type="text" placeholder="Smith"/></div>
+      </div>
+      <div class="fg"><label class="fl">Email Address</label><input class="fi" type="email" placeholder="john@company.com"/></div>
+      <div class="f2">
+        <div class="fg"><label class="fl">Company</label><input class="fi" type="text" placeholder="Acme Ltd"/></div>
+        <div class="fg"><label class="fl">Industry</label>
+          <select class="fsel"><option value="">Select…</option><option>Office / Business Park</option><option>Clinic / Healthcare</option><option>Gym / Fitness</option><option>Warehouse / Industrial</option><option>Other</option></select>
+        </div>
+      </div>
+      <div class="fg"><label class="fl">Notes (optional)</label><textarea class="fta" placeholder="Tell us about your site or any preferences…"></textarea></div>
+      <div class="mfoot"><button class="btn-modal" onclick="submitForm()">Submit Request <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+    </div>
+    <div class="mok" id="mOk">
+      <div class="mok-ic">✅</div>
+      <div class="mok-t">Request Received!</div>
+      <div class="mok-s">Our team will be in touch within 24 hours to discuss your vending solution.</div>
+      <button class="btn-ok" onclick="closeM()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA={
+  snacks:[
+    {n:"Ready Salted Crisps",d:"Light and crispy with a perfect salted flavour",e:"🥔",b:"pb-pop"},
+    {n:"Chocolate Caramel Bar",d:"Rich milk chocolate with a smooth caramel centre",e:"🍫",b:""},
+    {n:"Mixed Nut Pouch",d:"Premium roasted mixed nuts, individually portioned",e:"🥜",b:"pb-new"},
+    {n:"Cheese & Onion Crisps",d:"Tangy and satisfying classic British flavour",e:"🧀",b:""},
+    {n:"Salted Pretzels",d:"Lightly baked pretzels with sea salt crystals",e:"🥨",b:""},
+    {n:"Chocolate Biscuit Bar",d:"Layered wafer biscuit dipped in milk chocolate",e:"🍪",b:"pb-pop"},
+    {n:"Sweet & Salt Popcorn",d:"Lightly popped with a sweet and savoury glaze",e:"🍿",b:""},
+    {n:"Cereal & Oat Bar",d:"Wholesome oats with fruit and nut pieces",e:"🌾",b:""},
+  ],
+  drinks:[
+    {n:"Sparkling Water 500ml",d:"Refreshing naturally sparkling mineral water",e:"💧",b:""},
+    {n:"Cola 330ml Can",d:"Classic fizzy cola drink, ice cold",e:"🥤",b:"pb-pop"},
+    {n:"Orange Juice 330ml",d:"Smooth pressed OJ, not from concentrate",e:"🍊",b:""},
+    {n:"Still Water 500ml",d:"Pure still spring water, crisp and clean",e:"🫗",b:""},
+    {n:"Diet Cola 330ml Can",d:"Zero-sugar cola with classic taste",e:"🥫",b:""},
+    {n:"Apple & Mango Juice",d:"Tropical blend of apple and mango juices",e:"🍹",b:"pb-new"},
+    {n:"Iced Coffee 250ml",d:"Smooth cold brew with milk, lightly sweetened",e:"☕",b:""},
+    {n:"Lemon Sparkling 330ml",d:"Zesty sparkling lemon drink, naturally flavoured",e:"🍋",b:""},
+  ],
+  healthy:[
+    {n:"Mixed Seed Pouch",d:"Sunflower, pumpkin & sesame seeds packed with nutrients",e:"🌱",b:"pb-hlth"},
+    {n:"Dried Mango Slices",d:"Naturally sweet dried mango, no added sugar",e:"🥭",b:"pb-hlth"},
+    {n:"Apple & Cinnamon Bar",d:"Fruit and oat bar with a warming cinnamon flavour",e:"🍎",b:""},
+    {n:"Roasted Chickpeas",d:"Crunchy high-protein roasted chickpeas",e:"🫘",b:"pb-prot"},
+    {n:"Rice Cake Thins",d:"Light and low-calorie rice cakes with sea salt",e:"⭕",b:"pb-hlth"},
+    {n:"Dark Choc Almonds",d:"Premium almonds coated in 70% dark chocolate",e:"🍫",b:"pb-hlth"},
+    {n:"Trail Mix Pouch",d:"A wholesome mix of nuts, seeds and dried fruits",e:"🥜",b:""},
+    {n:"Coconut Water 330ml",d:"Natural electrolytes, hydrating and refreshing",e:"🥥",b:"pb-hlth"},
+  ],
+  energy:[
+    {n:"Energy Drink 250ml",d:"Caffeine and B-vitamins for sustained energy",e:"⚡",b:"pb-pop"},
+    {n:"Protein Bar – Choc Fudge",d:"20g protein in a rich chocolate fudge flavour",e:"💪",b:"pb-prot"},
+    {n:"Pre-Workout Snack Pack",d:"Fast-release carbs and electrolytes before training",e:"🏋️",b:"pb-new"},
+    {n:"Isotonic Sports Drink",d:"Electrolyte replenishment for active individuals",e:"🏃",b:"pb-hlth"},
+    {n:"Protein Shake 330ml",d:"Ready-to-drink whey protein with low sugar",e:"🧃",b:"pb-prot"},
+    {n:"BCAA Recovery Drink",d:"Amino acid blend for post-workout muscle recovery",e:"🔋",b:"pb-hlth"},
+    {n:"Caffeine Focus Shot",d:"Compact energy shot with added L-theanine",e:"🎯",b:"pb-new"},
+    {n:"Electrolyte Tabs Pouch",d:"Portable hydration tablets to add to your water",e:"💊",b:"pb-hlth"},
+  ],
+  custom:[
+    {n:"Office Bundle",d:"A curated mix of snacks and drinks for office environments",e:"🏢",b:"pb-new"},
+    {n:"Healthcare-Friendly Pack",d:"Low-sugar, nutritious options for healthcare staff",e:"🏥",b:"pb-hlth"},
+    {n:"Gym & Fitness Selection",d:"High-protein, energy-rich products for fitness facilities",e:"💪",b:"pb-prot"},
+    {n:"Industrial Site Pack",d:"Hearty, calorie-dense snacks for physical workers",e:"🏭",b:"pb-pop"},
+    {n:"Premium Variety Mix",d:"A premium selection covering all major categories",e:"⭐",b:"pb-new"},
+    {n:"Seasonal Selection",d:"Rotating seasonal products to keep the range fresh",e:"🗓️",b:""},
+    {n:"Zero-Sugar Range",d:"Dedicated low-sugar and no-added-sugar products",e:"🚫",b:"pb-hlth"},
+    {n:"Vegan & Plant-Based",d:"Fully plant-based options for all dietary preferences",e:"🌿",b:"pb-hlth"},
+  ]
+};
+const CATS={snacks:"Snacks",drinks:"Drinks",healthy:"Healthy",energy:"Energy & Performance",custom:"Custom"};
+const BADGE_LBL={"pb-pop":"Popular","pb-new":"New","pb-prot":"Protein","pb-hlth":"Healthy"};
+
+function renderProducts(){
+  Object.entries(DATA).forEach(([k,items])=>{
+    const g=document.getElementById(`grid-${k}`);if(!g)return;
+    g.innerHTML=items.map(p=>`
+      <div class="prod-card">
+        ${p.b?`<span class="pbadge ${p.b}">${BADGE_LBL[p.b]||''}</span>`:''}
+        <div class="prod-imgw"><div class="prod-img">${p.e}</div></div>
+        <div class="prod-body">
+          <div class="prod-cat">${CATS[k]}</div>
+          <div class="prod-name">${p.n}</div>
+          <div class="prod-desc">${p.d}</div>
+        </div>
+      </div>`).join('');
+  });
+}
+
+function go(pg){
+  document.querySelectorAll('.page').forEach(p=>{p.classList.remove('active');p.style.display='none'});
+  const t=document.getElementById(`page-${pg}`);
+  if(t){t.style.display='block';requestAnimationFrame(()=>t.classList.add('active'))}
+  document.querySelectorAll('.nl[data-pg]').forEach(l=>l.classList.remove('on'));
+  const al=document.querySelector(`.nl[data-pg="${pg}"]`);if(al)al.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(initReveal,80);
+}
+
+function scrollTo2(id){
+  if(!document.getElementById('page-home').classList.contains('active')){
+    go('home');setTimeout(()=>{const e=document.getElementById(id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},420);
+  }else{const e=document.getElementById(id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})}
+}
+
+function switchTab(t,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab-pill').forEach(b=>b.classList.remove('on'));
+  const panel=document.getElementById(`tab-${t}`);if(panel)panel.classList.add('on');
+  if(btn)btn.classList.add('on');
+  else document.querySelectorAll('.tab-pill').forEach(b=>{if(b.textContent.toLowerCase().includes(t.slice(0,4)))b.classList.add('on')});
+}
+
+function openM(){document.getElementById('mBg').classList.add('on');document.body.style.overflow='hidden'}
+function closeM(){
+  document.getElementById('mBg').classList.remove('on');document.body.style.overflow='';
+  setTimeout(()=>{document.getElementById('mForm').style.display='block';document.getElementById('mOk').style.display='none'},300);
+}
+function handleBgClick(e){if(e.target===document.getElementById('mBg'))closeM()}
+function submitForm(){document.getElementById('mForm').style.display='none';document.getElementById('mOk').style.display='block'}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+
+function toggleMob(){document.getElementById('hamBtn').classList.toggle('on');document.getElementById('mobNav').classList.toggle('on')}
+function closeMob(){document.getElementById('hamBtn').classList.remove('on');document.getElementById('mobNav').classList.remove('on')}
+
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList[window.scrollY>30?'add':'remove']('scrolled')});
+
+function initReveal(){
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}})},{threshold:.1});
+  document.querySelectorAll('.rv:not(.vis)').forEach(el=>obs.observe(el));
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  renderProducts();
+  document.querySelectorAll('.page').forEach(p=>{if(!p.classList.contains('active'))p.style.display='none'});
+  initReveal();
+});
+</script>
+</body>
+</html>
