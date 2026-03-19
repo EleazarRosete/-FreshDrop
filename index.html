@@ -67,14 +67,13 @@ nav {
 .logo-text-wrap { display: flex; flex-direction: column; line-height: 1; }
 .logo-name {
   font-family: 'Montserrat', sans-serif;
-  font-weight: 800; font-size: 1.05rem;
-  letter-spacing: -0.3px; color: var(--emerald);
+  font-weight: 800; font-size: 1.55rem;
+  letter-spacing: -0.6px; color: var(--emerald);
 }
 .logo-tag {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.6rem; font-weight: 500;
-  letter-spacing: 0.8px; text-transform: uppercase;
-  color: var(--gold); margin-top: 2px;
+  font-size: 0.6rem; font-weight: 400;
+  letter-spacing: 0.6px; text-transform: uppercase;
+  color: var(--lt); margin-top: 3px;
 }
 
 .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
@@ -877,28 +876,123 @@ footer {
 .ph-sub { font-size: 0.97rem; color: var(--mid); font-weight: 300; line-height: 1.72; max-width: 520px; }
 .ph-notice { font-size: 0.74rem; color: var(--lt); margin-top: 14px; font-style: italic; font-weight: 300; }
 
-/* Filter */
-.filter-wrap {
-  background: white; padding: 0 6%;
-  position: sticky; top: 72px; z-index: 50;
+/* ── Products page category jump nav ── */
+.prod-jump-nav {
+  background: white;
   border-bottom: 1px solid var(--border);
+  padding: 0 6%;
+  position: sticky; top: 72px; z-index: 50;
 }
-.filter-inner {
+.prod-jump-inner {
   max-width: 1180px; margin: 0 auto;
-  display: flex; gap: 4px; padding: 12px 0;
-  overflow-x: auto;
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 0; overflow-x: auto;
 }
-.filter-inner::-webkit-scrollbar { display: none; }
-.ftab {
-  padding: 7px 18px; border-radius: 5px;
+.prod-jump-inner::-webkit-scrollbar { display: none; }
+.pjump {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 18px; border-radius: 50px;
   border: 1.5px solid var(--border);
   font-family: 'Montserrat', sans-serif;
   font-size: 0.78rem; font-weight: 700; letter-spacing: 0.3px;
   cursor: pointer; background: white; color: var(--mid);
   transition: all 0.2s; white-space: nowrap; flex-shrink: 0;
+  text-decoration: none;
 }
-.ftab:hover { border-color: var(--emerald); color: var(--emerald); }
-.ftab.active { background: var(--emerald); border-color: var(--emerald); color: white; }
+.pjump:hover { border-color: var(--emerald); color: var(--emerald); background: var(--emerald-light); }
+.pjump-emoji { font-size: 1rem; }
+
+/* ── NEW products layout ── */
+.prod-page-body { padding: 60px 6% 80px; background: var(--off); }
+.prod-page-inner { max-width: 1180px; margin: 0 auto; }
+
+/* Category block */
+.prod-cat-block {
+  margin-bottom: 72px; scroll-margin-top: 130px;
+}
+.prod-cat-label {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 28px;
+}
+.prod-cat-emoji {
+  width: 52px; height: 52px; border-radius: 16px;
+  background: var(--emerald); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(15,106,60,0.2);
+}
+.prod-cat-label h2 {
+  font-size: 1.4rem; font-weight: 800; color: var(--text); letter-spacing: -0.3px;
+}
+.prod-cat-label h2 em { font-style: normal; color: var(--emerald); }
+.prod-cat-label p { font-size: 0.84rem; color: var(--lt); font-weight: 300; margin-top: 3px; }
+
+/* Grid of product cards */
+.prod-card-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+}
+.prod-card {
+  background: white; border-radius: 18px;
+  border: 1.5px solid var(--border);
+  padding: 24px 20px;
+  display: flex; flex-direction: column; gap: 10px;
+  transition: border-color 0.22s, box-shadow 0.22s, transform 0.25s cubic-bezier(.16,1,.3,1);
+  position: relative; overflow: hidden;
+}
+.prod-card:hover {
+  border-color: var(--emerald);
+  box-shadow: 0 10px 32px rgba(15,106,60,0.10);
+  transform: translateY(-4px);
+}
+.prod-card.featured {
+  background: var(--emerald); border-color: var(--emerald);
+  grid-column: span 2;
+}
+.prod-card.featured .prod-card-name { color: white; font-size: 1.1rem; }
+.prod-card.featured .prod-card-desc { color: rgba(255,255,255,0.78); }
+.prod-card.featured .prod-card-tag { color: var(--gold); }
+.prod-card.featured .prod-card-icon-wrap { background: rgba(255,255,255,0.15); }
+.prod-card-icon-wrap {
+  width: 42px; height: 42px; border-radius: 12px;
+  background: var(--emerald-light);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.prod-card-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.92rem; font-weight: 800; color: var(--text); letter-spacing: -0.1px;
+}
+.prod-card-desc {
+  font-size: 0.79rem; color: var(--lt); font-weight: 300; line-height: 1.6; flex: 1;
+}
+.prod-card-tag {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.66rem; font-weight: 700;
+  color: var(--emerald); text-transform: uppercase; letter-spacing: 0.4px;
+}
+.prod-cat-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+  margin-bottom: 72px;
+}
+
+/* Bespoke card */
+.bespoke-card {
+  background: white; border-radius: 20px;
+  border: 1.5px solid var(--border); border-left: 5px solid var(--gold);
+  padding: 36px 40px;
+  display: flex; align-items: center; gap: 28px;
+}
+.bespoke-card-icon {
+  width: 56px; height: 56px; background: var(--gold-light);
+  border-radius: 16px; display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0;
+}
+.bespoke-card h3 { font-size: 1.1rem; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+.bespoke-card p { font-size: 0.87rem; color: var(--mid); line-height: 1.68; font-weight: 300; max-width: 500px; }
+
+@media (max-width: 900px) { .prod-card-grid { grid-template-columns: 1fr 1fr; } .prod-card.featured { grid-column: span 2; } }
+@media (max-width: 560px) { .prod-card-grid { grid-template-columns: 1fr; } .prod-card.featured { grid-column: span 1; } .bespoke-card { flex-direction: column; } }
 
 /* Products body */
 .products-body { padding: 52px 6% 80px; background: var(--off); }
@@ -1371,6 +1465,136 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
   .mid-cta-row { flex-direction: column; align-items: flex-start; }
 }
 
+/* ─────────────────────────────────────────
+   SOFTENED CURVES — client feedback update
+   Replaces sharp corners with gentle radii
+   throughout for a warmer, friendlier feel.
+───────────────────────────────────────── */
+
+/* Buttons — pill shape */
+.btn-primary, .btn-secondary, .btn-white, .btn-outline-w,
+.btn-see-all, .btn-gsm, .modal-submit, .nav-cta { border-radius: 50px !important; }
+
+/* Filter tabs */
+.ftab { border-radius: 50px !important; }
+
+/* Hero card & chips */
+.service-card-hero { border-radius: 20px !important; }
+.chip { border-radius: 20px !important; }
+
+/* Hero metrics */
+.hero-metrics { border-radius: 16px !important; }
+
+/* About photos */
+.abv-main { border-radius: 20px !important; }
+.abv-secondary { border-radius: 16px !important; }
+.abv-accent { border-radius: 14px !important; }
+
+/* Services subsections */
+.subsec-head { border-radius: 16px 16px 0 0 !important; }
+.subsec-body { border-radius: 0 0 16px 16px !important; }
+
+/* Industry items */
+.ind-item { border-radius: 16px !important; }
+.ind-icon-wrap { border-radius: 12px !important; }
+
+/* Products preview cards */
+.pp-card { border-radius: 18px !important; }
+.pp-card-icon { border-radius: 12px !important; }
+
+/* Products page items */
+.prod-item { border-radius: 16px !important; }
+.prod-icon { border-radius: 10px !important; }
+.cat-icon-box { border-radius: 12px !important; }
+.bespoke-row { border-radius: 16px !important; }
+
+/* CTA banner & proof bar */
+.cta-banner { border-radius: 28px !important; }
+.prod-cta { border-radius: 24px !important; }
+.why-free-box { border-radius: 18px !important; }
+.mid-cta-row { border-radius: 16px !important; }
+.logistics-note { border-radius: 16px !important; }
+.proof-bar { border-radius: 0; } /* full-width strip — keep square */
+
+/* Testimonials */
+.testi-card { border-radius: 20px !important; }
+.testi-cta { border-radius: 20px !important; }
+.testi-avatar { border-radius: 50% !important; }
+
+/* Modal */
+.modal-box { border-radius: 24px !important; }
+.modal-trust-strip { border-radius: 10px !important; }
+.fg input, .fg select, .fg textarea { border-radius: 10px !important; }
+
+/* Core feats inside service card */
+.core-feat { border-radius: 12px !important; }
+.cf-icon { border-radius: 10px !important; }
+
+/* Note badge */
+.note-badge { border-radius: 8px !important; }
+
+/* ─────────────────────────────────────────
+   PREMIUM SVG BACKGROUND DECORATIONS
+   Guiding flow lines, arcs, and accents
+───────────────────────────────────────── */
+
+/* Shared: all section bg decorations are absolute, pointer-events:none, z:0 */
+.bg-deco {
+  position: absolute; pointer-events: none; z-index: 0;
+  overflow: hidden;
+}
+
+/* Hero — flowing arc top-right */
+.hero { position: relative; }
+.hero-deco-arc {
+  position: absolute; top: 0; right: 0;
+  width: 620px; height: 620px;
+  pointer-events: none; z-index: 0; opacity: 0.45;
+}
+
+/* Guiding flow line — full-width SVG behind sections */
+.flow-guide {
+  position: absolute; left: 0; right: 0;
+  pointer-events: none; z-index: 0; overflow: hidden;
+}
+
+/* About section decorative dots grid */
+.about { position: relative; overflow: hidden; }
+.about-deco-dots {
+  position: absolute; bottom: -20px; right: -20px;
+  width: 260px; height: 260px;
+  pointer-events: none; z-index: 0; opacity: 0.25;
+}
+
+/* How it works — curved arrow guides between steps */
+.how { position: relative; overflow: hidden; }
+.how-deco {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none; z-index: 0; opacity: 0.18;
+}
+
+/* Products preview — subtle diagonal lines */
+.prod-preview { position: relative; overflow: hidden; }
+.prod-deco {
+  position: absolute; top: 0; right: 0;
+  width: 480px; height: 480px;
+  pointer-events: none; z-index: 0; opacity: 0.12;
+}
+
+/* Services section */
+.services { position: relative; overflow: hidden; }
+.srv-deco {
+  position: absolute; bottom: 0; left: 0;
+  width: 500px; height: 400px;
+  pointer-events: none; z-index: 0; opacity: 0.07;
+}
+
+/* Make sure section content stays above decorations */
+.hero-inner, .about-inner, .how-inner, .srv-inner,
+.pp-inner, .testi-inner, .proof-bar-inner {
+  position: relative; z-index: 1;
+}
+
 </style>
 </head>
 <body>
@@ -1409,10 +1633,19 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
   <!-- HERO -->
   <section class="hero" id="home">
     <div class="hero-bg-line"></div>
+
+    <!-- Premium background arc decoration -->
+    <svg class="hero-deco-arc" viewBox="0 0 620 620" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="620" cy="0" r="420" stroke="#0F6A3C" stroke-width="1" fill="none" opacity="0.3"/>
+      <circle cx="620" cy="0" r="310" stroke="#D4A017" stroke-width="0.8" fill="none" opacity="0.25"/>
+      <circle cx="620" cy="0" r="200" stroke="#0F6A3C" stroke-width="0.6" fill="none" opacity="0.2"/>
+      <path d="M 580 0 Q 400 120 280 300 Q 160 480 80 620" stroke="#0F6A3C" stroke-width="1.2" fill="none" opacity="0.2" stroke-dasharray="6 10"/>
+      <path d="M 620 80 Q 460 200 340 380 Q 220 520 160 620" stroke="#D4A017" stroke-width="0.8" fill="none" opacity="0.18" stroke-dasharray="4 14"/>
+    </svg>
     <div class="hero-inner">
 
       <div class="ss-left">
-        <div class="hero-label">Free for UK businesses — no contract required</div>
+        <div class="hero-label">Free for UK businesses — No hassle.</div>
         <h1 class="hero-title">
           <span class="line-gold">Simple solutions.</span>
           <span class="line-green">Trusted service.</span>
@@ -1422,7 +1655,7 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
           <a class="btn-primary" onclick="openModal()">Request a Machine →<span class="arrow-icon">→</span></a>
           <a class="btn-secondary" onclick="showPage('home','how-it-works')">See How It Works →</a>
         </div>
-        <div class="hero-reassurance">No cost to your business &nbsp;·&nbsp; Response within 24hrs &nbsp;·&nbsp; No contract needed</div>
+        <div class="hero-reassurance">No cost to your business &nbsp;·&nbsp; Response within 24hrs &nbsp;·&nbsp; Fully managed service</div>
         <div class="hero-metrics">
           <div class="metric">
             <span class="metric-val">Free</span>
@@ -1514,6 +1747,18 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
 
   <!-- ABOUT -->
   <section class="about" id="about">
+
+    <!-- Dot grid decoration -->
+    <svg class="about-deco-dots" viewBox="0 0 260 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs><pattern id="dotgrid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.5" fill="#0F6A3C"/></pattern></defs>
+      <rect width="260" height="260" fill="url(#dotgrid)"/>
+    </svg>
+
+    <!-- Flowing curve guide left side -->
+    <svg style="position:absolute;left:0;top:50%;transform:translateY(-50%);width:80px;height:400px;pointer-events:none;z-index:0;opacity:0.12" viewBox="0 0 80 400" fill="none">
+      <path d="M -10 0 Q 60 100 10 200 Q -40 300 40 400" stroke="#0F6A3C" stroke-width="2" fill="none" stroke-dasharray="5 8"/>
+    </svg>
+
     <div class="about-inner">
 
       <!-- Text side -->
@@ -1539,7 +1784,7 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
           </div>
           <div class="atr-item reveal" data-delay="4">
             <div class="atr-dot"></div>
-            <span class="atr-text">UK-based, no contract required</span>
+            <span class="atr-text">UK-based, fully managed end-to-end</span>
           </div>
         </div>
       </div>
@@ -1550,8 +1795,8 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
         <!-- Main tall photo -->
         <div class="abv-main">
           <img
-            src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&q=85&auto=format&fit=crop"
-            alt="Modern professional workplace"
+            src="https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=900&q=85&auto=format&fit=crop"
+            alt="Person using a vending machine at work"
             loading="lazy"
             onerror="this.style.display='none'"
           >
@@ -1560,8 +1805,8 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
         <!-- Overlapping bottom-right photo -->
         <div class="abv-secondary">
           <img
-            src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80&auto=format&fit=crop"
-            alt="Active fitness workplace"
+            src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=600&q=80&auto=format&fit=crop"
+            alt="Colleague enjoying a snack at the office"
             loading="lazy"
             onerror="this.style.display='none'"
           >
@@ -1570,8 +1815,8 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
         <!-- Top-right accent photo -->
         <div class="abv-accent">
           <img
-            src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&q=80&auto=format&fit=crop"
-            alt="Healthcare workplace environment"
+            src="https://images.unsplash.com/photo-1506619216599-9d16d0903dfd?w=400&q=80&auto=format&fit=crop"
+            alt="Healthy snacks and drinks"
             loading="lazy"
             onerror="this.style.display='none'"
           >
@@ -1590,6 +1835,12 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
 
     <!-- SERVICES -->
   <section class="services" id="services">
+
+    <!-- Background wave guide -->
+    <svg class="srv-deco" viewBox="0 0 500 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M -50 350 Q 100 200 250 280 Q 400 360 550 150" stroke="#0F6A3C" stroke-width="80" fill="none" opacity="1"/>
+    </svg>
+
     <div class="srv-inner">
 
       <div class="srv-header ss-up">
@@ -1659,35 +1910,31 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
         </div>
         <div class="subsec-body">
           <div class="who-card">
-            <p class="who-intro">Simple Serve works for any UK workplace with 10+ people on site. We tailor the product mix to your environment — so an office gets a different selection to a gym or a clinic. If your team needs refreshments, we have a solution.</p>
+            <p class="who-intro">Simple Serve supports a wide range of workplaces including offices, clinics, gyms and industrial environments. Our machines offer a balanced selection of everyday snacks and drinks alongside healthier options, designed to suit most workplace needs. Where required, product selections can be refined to meet specific requirements upon request. We provide a fully managed service, ensuring convenient and reliable refreshments for your team and visitors.</p>
             <div class="ind-grid">
               <div class="ind-item">
                 <div class="ind-icon-wrap">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
                 </div>
                 <div class="ind-name">Offices &amp; Business Parks</div>
-                <div class="ind-desc">Refreshments for employees and visitors throughout the working day</div>
               </div>
               <div class="ind-item">
                 <div class="ind-icon-wrap">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                 </div>
                 <div class="ind-name">Clinics &amp; Healthcare</div>
-                <div class="ind-desc">Nutritious, low-sugar options for staff, patients and visitors</div>
               </div>
               <div class="ind-item">
                 <div class="ind-icon-wrap">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
                 </div>
                 <div class="ind-name">Gyms &amp; Fitness Centres</div>
-                <div class="ind-desc">Performance products and energy options for active memberships</div>
               </div>
               <div class="ind-item">
                 <div class="ind-icon-wrap">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
                 </div>
                 <div class="ind-name">Warehouses &amp; Industrial</div>
-                <div class="ind-desc">Hearty, energy-dense products to fuel shift workers all day long</div>
               </div>
             </div>
           </div>
@@ -1698,7 +1945,7 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
       <div class="mid-cta-row ss-up ss-d2">
         <div class="mid-cta-text">
           <strong>Ready to get started?</strong>
-          <span>Takes 2 minutes to enquire. No contract, no cost.</span>
+          <span>Takes 2 minutes to enquire. Free installation.</span>
         </div>
         <a class="btn-primary" onclick="openModal()">Get Your Free Machine <span class="arrow-icon">→</span></a>
       </div>
@@ -1717,6 +1964,16 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
 
   <!-- PRODUCTS PREVIEW -->
   <section class="prod-preview" id="products-preview">
+
+    <!-- Diagonal line accent -->
+    <svg class="prod-deco" viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="480" x2="480" y2="0" stroke="#0F6A3C" stroke-width="1.5"/>
+      <line x1="60" y1="480" x2="480" y2="60" stroke="#0F6A3C" stroke-width="1"/>
+      <line x1="120" y1="480" x2="480" y2="120" stroke="#D4A017" stroke-width="0.8"/>
+      <line x1="180" y1="480" x2="480" y2="180" stroke="#0F6A3C" stroke-width="0.6"/>
+      <line x1="240" y1="480" x2="480" y2="240" stroke="#0F6A3C" stroke-width="0.5"/>
+    </svg>
+
     <div class="pp-inner">
       <div class="pp-header ss-up">
         <div>
@@ -1771,6 +2028,13 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
 
   <!-- HOW IT WORKS -->
   <section class="how" id="how-it-works">
+
+    <!-- Curved guide arcs behind steps -->
+    <svg class="how-deco" viewBox="0 0 1180 400" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 100 320 Q 300 80 590 200 Q 880 320 1080 80" stroke="#0F6A3C" stroke-width="2" fill="none" stroke-dasharray="8 12"/>
+      <path d="M 50 360 Q 295 100 590 240 Q 885 360 1130 120" stroke="#D4A017" stroke-width="1.2" fill="none" stroke-dasharray="4 18" opacity="0.6"/>
+    </svg>
+
     <div class="how-inner">
       <div class="how-header ss-up">
         <div class="eyebrow">Vending Made Simple</div>
@@ -1785,7 +2049,7 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
         </div>
         <div>
           <div class="wf-title">Why is it free?</div>
-          <div class="wf-text">Simple Serve earns revenue through product sales — not from you. The machine, installation, restocking and maintenance are all covered on our side. You pay nothing. Your team pays machine price per item — just like any vending machine. There are no hidden charges, no monthly fees, and no contracts.</div>
+          <div class="wf-text">Simple Serve earns revenue through product sales — not from you. The machine, installation, restocking and maintenance are all covered on our side. You pay nothing. Your team pays machine price per item — just like any vending machine. There are no hidden charges and no monthly fees.</div>
         </div>
       </div>
       <div class="steps-row ss-up ss-d1">
@@ -1860,7 +2124,7 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
       <div class="testi-cta ss-up ss-d2">
         <p class="testi-cta-copy">Join the workplaces already benefiting from Simple Serve.</p>
         <a class="btn-primary" onclick="openModal()">Get Your Free Machine <span class="arrow-icon">→</span></a>
-        <span class="testi-cta-note">Free to enquire &nbsp;·&nbsp; No contract &nbsp;·&nbsp; UK businesses only</span>
+        <span class="testi-cta-note">Free to enquire &nbsp;·&nbsp; Fully managed &nbsp;·&nbsp; UK businesses only</span>
       </div>
     </div>
   </section>
@@ -1870,7 +2134,7 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
     <div class="cta-banner ss-scale">
       <div class="cta-text">
         <h2>Get a free vending machine<br><em>for your workplace.</em></h2>
-        <p>Free installation · Fully managed · No contract needed · Response within 24 hours</p>
+        <p>Free installation · Fully managed · 24/7 support · Response within 24 hours</p>
       </div>
       <div class="cta-actions">
         <a class="btn-white" onclick="openModal()">Get Your Free Machine →</a>
@@ -1933,9 +2197,15 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
 ═══════════════════════════════════════ -->
 <div id="page-products" class="page">
 
-  <div class="page-hero">
+  <div class="page-hero" style="position:relative;overflow:hidden;">
     <div class="page-hero-bg"></div>
-    <div class="ph-inner ss-up">
+    <!-- Subtle arc deco -->
+    <svg style="position:absolute;top:0;right:0;width:340px;height:340px;pointer-events:none;z-index:0;opacity:0.3" viewBox="0 0 340 340" fill="none">
+      <circle cx="340" cy="0" r="240" stroke="#0F6A3C" stroke-width="1" fill="none"/>
+      <circle cx="340" cy="0" r="170" stroke="#D4A017" stroke-width="0.7" fill="none"/>
+      <circle cx="340" cy="0" r="100" stroke="#0F6A3C" stroke-width="0.5" fill="none"/>
+    </svg>
+    <div class="ph-inner ss-up" style="position:relative;z-index:1;">
       <div class="eyebrow">Our Range</div>
       <h1 class="ph-title">Product <em>Range</em></h1>
       <p class="ph-sub">Browse our curated selection — snacks, drinks, healthy options and more. Every machine is stocked to suit your workplace and team.</p>
@@ -1943,132 +2213,221 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
     </div>
   </div>
 
-  <div class="ticker-wrap">
-    <div class="ticker-track" id="tickerProducts"></div>
-  </div>
-
-  <div class="filter-wrap">
-    <div class="filter-inner">
-      <button class="ftab active" data-cat="all">All Products</button>
-      <button class="ftab" data-cat="snacks">Snacks</button>
-      <button class="ftab" data-cat="drinks">Drinks</button>
-      <button class="ftab" data-cat="healthy">Healthy</button>
-      <button class="ftab" data-cat="energy">Energy</button>
-      <button class="ftab" data-cat="custom">Custom</button>
+  <!-- Jump navigation — scroll to category -->
+  <div class="prod-jump-nav">
+    <div class="prod-jump-inner">
+      <a class="pjump" onclick="document.getElementById('cat-snacks').scrollIntoView({behavior:'smooth',block:'start'})"><span class="pjump-emoji">🍿</span> Snacks</a>
+      <a class="pjump" onclick="document.getElementById('cat-drinks').scrollIntoView({behavior:'smooth',block:'start'})"><span class="pjump-emoji">🥤</span> Drinks</a>
+      <a class="pjump" onclick="document.getElementById('cat-healthy').scrollIntoView({behavior:'smooth',block:'start'})"><span class="pjump-emoji">🥗</span> Healthy</a>
+      <a class="pjump" onclick="document.getElementById('cat-energy').scrollIntoView({behavior:'smooth',block:'start'})"><span class="pjump-emoji">⚡</span> Energy</a>
+      <a class="pjump" onclick="document.getElementById('cat-custom').scrollIntoView({behavior:'smooth',block:'start'})"><span class="pjump-emoji">✏️</span> Custom</a>
+      <a class="pjump" onclick="openModal()" style="margin-left:auto;background:var(--emerald);color:white;border-color:var(--emerald);">Request a Machine →</a>
     </div>
   </div>
 
-  <div class="products-body">
-    <div class="pb-inner">
+  <!-- Products body -->
+  <div class="prod-page-body">
+    <div class="prod-page-inner">
 
-      <div class="cat-section ss-up" data-section="snacks">
-        <div class="cat-head">
-          <div class="cat-icon-box">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2l18 0M3 22l18 0M5 2v20M19 2v20M8 6h2M8 10h2M8 14h2M8 18h2M14 6h2M14 10h2M14 14h2M14 18h2"/></svg>
+      <!-- ── SNACKS ── -->
+      <div class="prod-cat-block ss-up" id="cat-snacks">
+        <div class="prod-cat-label">
+          <div class="prod-cat-emoji">🍿</div>
+          <div>
+            <h2><em>Snacks</em> &amp; Bites</h2>
+            <p>Popular everyday snacks to keep your team fuelled throughout the day</p>
           </div>
-          <div><h2><em>Snacks</em> &amp; Bites</h2><p>Popular everyday snacks to keep your team fuelled</p></div>
         </div>
-        <div class="prod-row">
-          <div class="prod-item feat">
-            <div class="prod-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
-            <div class="prod-name">Crisps &amp; Popcorn</div>
-            <div class="prod-desc">A crowd favourite — assorted flavours of crisps and popcorn to satisfy that midday crunch.</div>
-            <span class="prod-tag">Most Popular</span>
+        <div class="prod-card-grid">
+          <div class="prod-card featured">
+            <div class="prod-card-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2l18 0M3 22l18 0M5 2v20M19 2v20M8 6h2M8 10h2M8 14h2M8 18h2M14 6h2M14 10h2M14 14h2M14 18h2"/></svg></div>
+            <div class="prod-card-name">Crisps &amp; Popcorn</div>
+            <div class="prod-card-desc">A workplace staple — assorted flavours of crisps and popcorn to satisfy that midday crunch. Available in classic and sharing sizes.</div>
+            <span class="prod-card-tag">⭐ Most Popular</span>
           </div>
-          <div class="prod-item"><div class="prod-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="prod-name">Chocolate Bars</div><div class="prod-desc">Classic and premium chocolate for a sweet treat.</div><span class="prod-tag">8 Varieties</span></div>
-          <div class="prod-item"><div class="prod-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg></div><div class="prod-name">Biscuits &amp; Cookies</div><div class="prod-desc">Shortbreads, digestives and cookies — perfect with a tea break.</div><span class="prod-tag">6 Varieties</span></div>
-          <div class="prod-item"><div class="prod-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div><div class="prod-name">Nuts &amp; Trail Mix</div><div class="prod-desc">Salted, roasted and mixed nut selections for on-the-go energy.</div><span class="prod-tag">4 Varieties</span></div>
-          <div class="prod-item"><div class="prod-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="prod-name">Pretzels &amp; Crackers</div><div class="prod-desc">Light, crunchy and easy to enjoy at the desk.</div><span class="prod-tag">3 Varieties</span></div>
+          <div class="prod-card">
+            <div class="prod-card-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
+            <div class="prod-card-name">Chocolate Bars</div>
+            <div class="prod-card-desc">Classic and premium chocolate for a sweet treat at any time of day.</div>
+            <span class="prod-card-tag">8 Varieties</span>
+          </div>
+          <div class="prod-card">
+            <div class="prod-card-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+            <div class="prod-card-name">Biscuits &amp; Cookies</div>
+            <div class="prod-card-desc">Shortbreads, digestives and cookies — perfect for a tea break.</div>
+            <span class="prod-card-tag">6 Varieties</span>
+          </div>
+          <div class="prod-card">
+            <div class="prod-card-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+            <div class="prod-card-name">Nuts &amp; Trail Mix</div>
+            <div class="prod-card-desc">Salted, roasted and mixed nut selections — a quick energy boost.</div>
+            <span class="prod-card-tag">4 Varieties</span>
+          </div>
+          <div class="prod-card">
+            <div class="prod-card-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+            <div class="prod-card-name">Pretzels &amp; Crackers</div>
+            <div class="prod-card-desc">Light and crunchy — easy to enjoy at the desk.</div>
+            <span class="prod-card-tag">3 Varieties</span>
+          </div>
         </div>
       </div>
-      <div class="cat-div"></div>
+      <div class="prod-cat-divider"></div>
 
-      <div class="cat-section ss-up" data-section="drinks">
-        <div class="cat-head">
-          <div class="cat-icon-box">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+      <!-- ── DRINKS ── -->
+      <div class="prod-cat-block ss-up" id="cat-drinks">
+        <div class="prod-cat-label">
+          <div class="prod-cat-emoji" style="background:var(--emerald-dark);">🥤</div>
+          <div>
+            <h2><em>Drinks</em></h2>
+            <p>Refreshing cold and hot beverages for every taste</p>
           </div>
-          <div><h2><em>Drinks</em></h2><p>Refreshing cold and hot beverages for every taste</p></div>
         </div>
-        <div class="prod-row">
-          <div class="prod-item"><div class="prod-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg></div><div class="prod-name">Hot Coffee</div><div class="prod-desc">Espresso, latte, and cappuccino brewed fresh.</div><span class="prod-tag">5 Varieties</span></div>
-          <div class="prod-item feat">
-            <div class="prod-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg></div>
-            <div class="prod-name">Cold Soft Drinks</div>
-            <div class="prod-desc">Classic cans and bottles — cola, lemonade, sparkling water and more to keep everyone refreshed throughout the day.</div>
-            <span class="prod-tag">Most Popular</span>
+        <div class="prod-card-grid">
+          <div class="prod-card featured">
+            <div class="prod-card-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+            <div class="prod-card-name">Cold Soft Drinks</div>
+            <div class="prod-card-desc">Classic cans and bottles — cola, lemonade, sparkling water and more to keep everyone refreshed throughout the working day.</div>
+            <span class="prod-card-tag">⭐ Most Popular</span>
           </div>
-          <div class="prod-item"><div class="prod-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg></div><div class="prod-name">Water</div><div class="prod-desc">Still, sparkling and flavoured water for daily hydration.</div><span class="prod-tag">4 Varieties</span></div>
-          <div class="prod-item"><div class="prod-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><div class="prod-name">Juices &amp; Smoothies</div><div class="prod-desc">Chilled juices and fruit smoothies for a natural boost.</div><span class="prod-tag">5 Varieties</span></div>
-          <div class="prod-item"><div class="prod-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="prod-name">Hot Tea</div><div class="prod-desc">Black, herbal and green teas for quieter moments.</div><span class="prod-tag">6 Varieties</span></div>
+          <div class="prod-card">
+            <div class="prod-card-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg></div>
+            <div class="prod-card-name">Hot Coffee</div>
+            <div class="prod-card-desc">Espresso, latte, and cappuccino freshly brewed on demand.</div>
+            <span class="prod-card-tag">5 Varieties</span>
+          </div>
+          <div class="prod-card">
+            <div class="prod-card-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg></div>
+            <div class="prod-card-name">Water</div>
+            <div class="prod-card-desc">Still, sparkling and flavoured water for everyday hydration.</div>
+            <span class="prod-card-tag">4 Varieties</span>
+          </div>
+          <div class="prod-card">
+            <div class="prod-card-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+            <div class="prod-card-name">Juices &amp; Smoothies</div>
+            <div class="prod-card-desc">Chilled juices and fruit smoothies for a natural energy boost.</div>
+            <span class="prod-card-tag">5 Varieties</span>
+          </div>
+          <div class="prod-card">
+            <div class="prod-card-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/></svg></div>
+            <div class="prod-card-name">Hot Tea</div>
+            <div class="prod-card-desc">Black, herbal and green teas for quieter moments in the day.</div>
+            <span class="prod-card-tag">6 Varieties</span>
+          </div>
         </div>
       </div>
-      <div class="cat-div"></div>
+      <div class="prod-cat-divider"></div>
 
-      <div class="cat-section ss-up" data-section="healthy">
-        <div class="cat-head">
-          <div class="cat-icon-box">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <!-- ── HEALTHY ── -->
+      <div class="prod-cat-block ss-up" id="cat-healthy">
+        <div class="prod-cat-label">
+          <div class="prod-cat-emoji" style="background:#1a7d4a;">🥗</div>
+          <div>
+            <h2><em>Healthy</em> Options</h2>
+            <p>Nutritious choices for health-conscious teams and clinical environments</p>
           </div>
-          <div><h2><em>Healthy</em> Options</h2><p>Nutritious choices for health-conscious teams and environments</p></div>
         </div>
-        <div class="prod-row">
-          <div class="prod-item"><div class="prod-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/></svg></div><div class="prod-name">Cereal &amp; Oat Bars</div><div class="prod-desc">Low-sugar cereal and oat bars for a wholesome snack any time.</div><span class="prod-tag">7 Varieties</span></div>
-          <div class="prod-item"><div class="prod-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg></div><div class="prod-name">Dried Fruit</div><div class="prod-desc">Raisins, apricots, and mixed dried fruit for a natural lift.</div><span class="prod-tag">4 Varieties</span></div>
-          <div class="prod-item feat">
-            <div class="prod-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-            <div class="prod-name">Daily Essentials Range</div>
-            <div class="prod-desc">A curated mix of low-calorie, high-nutrition snacks and drinks. Ideal for clinical environments and health-focused workplaces.</div>
-            <span class="prod-tag">Clinic Favourite</span>
+        <div class="prod-card-grid">
+          <div class="prod-card featured">
+            <div class="prod-card-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <div class="prod-card-name">Daily Essentials Range</div>
+            <div class="prod-card-desc">A curated mix of low-calorie, high-nutrition snacks and drinks. Ideal for clinical environments and health-conscious workplaces.</div>
+            <span class="prod-card-tag">🏥 Clinic Favourite</span>
           </div>
-          <div class="prod-item"><div class="prod-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="prod-name">Rice Cakes &amp; Crackers</div><div class="prod-desc">Light alternatives to crisps, available plain and flavoured.</div><span class="prod-tag">3 Varieties</span></div>
-          <div class="prod-item"><div class="prod-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div><div class="prod-name">Yoghurt Drinks</div><div class="prod-desc">Probiotic and plain yoghurt drinks for gut-friendly refreshment.</div><span class="prod-tag">3 Varieties</span></div>
+          <div class="prod-card">
+            <div class="prod-card-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/></svg></div>
+            <div class="prod-card-name">Cereal &amp; Oat Bars</div>
+            <div class="prod-card-desc">Low-sugar cereal and oat bars for a wholesome snack anytime.</div>
+            <span class="prod-card-tag">7 Varieties</span>
+          </div>
+          <div class="prod-card">
+            <div class="prod-card-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg></div>
+            <div class="prod-card-name">Dried Fruit</div>
+            <div class="prod-card-desc">Raisins, apricots and mixed dried fruit for a natural lift.</div>
+            <span class="prod-card-tag">4 Varieties</span>
+          </div>
+          <div class="prod-card">
+            <div class="prod-card-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
+            <div class="prod-card-name">Rice Cakes &amp; Crackers</div>
+            <div class="prod-card-desc">Light alternatives to crisps, available plain and flavoured.</div>
+            <span class="prod-card-tag">3 Varieties</span>
+          </div>
+          <div class="prod-card">
+            <div class="prod-card-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+            <div class="prod-card-name">Yoghurt Drinks</div>
+            <div class="prod-card-desc">Probiotic and plain yoghurt drinks for gut-friendly refreshment.</div>
+            <span class="prod-card-tag">3 Varieties</span>
+          </div>
         </div>
       </div>
-      <div class="cat-div"></div>
+      <div class="prod-cat-divider"></div>
 
-      <div class="cat-section ss-up" data-section="energy">
-        <div class="cat-head">
-          <div class="cat-icon-box">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <!-- ── ENERGY ── -->
+      <div class="prod-cat-block ss-up" id="cat-energy">
+        <div class="prod-cat-label">
+          <div class="prod-cat-emoji" style="background:#7a5800;">⚡</div>
+          <div>
+            <h2>Energy &amp; <em>Performance</em></h2>
+            <p>Designed for gyms, warehouses and active workplaces</p>
           </div>
-          <div><h2>Energy &amp; <em>Performance</em></h2><p>Designed for gyms, warehouses and active workplaces</p></div>
         </div>
-        <div class="prod-row">
-          <div class="prod-item feat">
-            <div class="prod-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-            <div class="prod-name">Energy Drinks</div>
-            <div class="prod-desc">Top energy drink brands to keep shift workers and gym members powered through long days and intense sessions.</div>
-            <span class="prod-tag">Gym Favourite</span>
+        <div class="prod-card-grid">
+          <div class="prod-card featured">
+            <div class="prod-card-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+            <div class="prod-card-name">Energy Drinks</div>
+            <div class="prod-card-desc">Top energy drink brands to keep shift workers and gym members powered through long days and intense sessions.</div>
+            <span class="prod-card-tag">💪 Gym Favourite</span>
           </div>
-          <div class="prod-item"><div class="prod-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><div class="prod-name">Protein Bars</div><div class="prod-desc">High-protein bars for post-workout recovery and sustained energy.</div><span class="prod-tag">6 Varieties</span></div>
-          <div class="prod-item"><div class="prod-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/></svg></div><div class="prod-name">Protein Shakes</div><div class="prod-desc">Ready-to-drink protein shakes in popular flavours for gym members.</div><span class="prod-tag">4 Varieties</span></div>
-          <div class="prod-item"><div class="prod-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg></div><div class="prod-name">Isotonic Drinks</div><div class="prod-desc">Electrolyte sports drinks for rehydration and performance.</div><span class="prod-tag">5 Varieties</span></div>
-          <div class="prod-item"><div class="prod-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="prod-name">Energy Flapjacks</div><div class="prod-desc">Oat-based bars for a slower, sustained energy release.</div><span class="prod-tag">3 Varieties</span></div>
+          <div class="prod-card">
+            <div class="prod-card-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+            <div class="prod-card-name">Protein Bars</div>
+            <div class="prod-card-desc">High-protein bars for post-workout recovery and sustained energy.</div>
+            <span class="prod-card-tag">6 Varieties</span>
+          </div>
+          <div class="prod-card">
+            <div class="prod-card-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/></svg></div>
+            <div class="prod-card-name">Protein Shakes</div>
+            <div class="prod-card-desc">Ready-to-drink shakes in popular flavours for gym members.</div>
+            <span class="prod-card-tag">4 Varieties</span>
+          </div>
+          <div class="prod-card">
+            <div class="prod-card-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg></div>
+            <div class="prod-card-name">Isotonic Drinks</div>
+            <div class="prod-card-desc">Electrolyte sports drinks for rehydration and performance.</div>
+            <span class="prod-card-tag">5 Varieties</span>
+          </div>
+          <div class="prod-card">
+            <div class="prod-card-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
+            <div class="prod-card-name">Energy Flapjacks</div>
+            <div class="prod-card-desc">Oat-based bars for a slower, sustained energy release.</div>
+            <span class="prod-card-tag">3 Varieties</span>
+          </div>
         </div>
       </div>
-      <div class="cat-div"></div>
+      <div class="prod-cat-divider"></div>
 
-      <div class="cat-section ss-up" data-section="custom">
-        <div class="cat-head">
-          <div class="cat-icon-box">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      <!-- ── CUSTOM ── -->
+      <div class="prod-cat-block ss-up" id="cat-custom">
+        <div class="prod-cat-label">
+          <div class="prod-cat-emoji" style="background:var(--gold);font-size:1.3rem;">✏️</div>
+          <div>
+            <h2><em>Custom</em> Selections</h2>
+            <p>Product refinements available on request</p>
           </div>
-          <div><h2><em>Custom</em> Selections</h2><p>Tailored product mixes to match your workplace</p></div>
         </div>
-        <div class="bespoke-row">
-          <div class="bespoke-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        <div class="bespoke-card">
+          <div class="bespoke-card-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           </div>
           <div>
             <h3>Bespoke for Your Workplace</h3>
-            <p>Every workplace is different. We build a product mix that fits your team's preferences, dietary requirements, and environment — whether that's a health-focused office, a high-energy gym, or a balanced clinical selection.</p>
-            <a class="btn-gsm" onclick="openModal()">Request a Custom Selection</a>
+            <p>Our machines come stocked with a well-rounded selection to suit most workplaces. Where specific needs arise — dietary requirements, environment preferences, or particular product requests — selections can be refined upon request. Just get in touch and we'll work with you.</p>
+            <a class="btn-gsm" onclick="openModal()" style="margin-top:16px;display:inline-block;">Request a Custom Selection →</a>
           </div>
         </div>
       </div>
 
-      <div class="prod-cta ss-scale">
+      <!-- Final CTA -->
+      <div class="prod-cta ss-scale" style="margin-top:56px;">
         <div>
           <h3>Ready to bring <em>Simple Serve</em> to your workplace?</h3>
           <p>Free installation. Fully managed. Get in touch today.</p>
@@ -2138,7 +2497,7 @@ nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
     <div id="mForm">
       <div class="modal-trust-strip">
         <span>✓ Free to enquire</span>
-        <span>✓ No contract</span>
+        <span>✓ Fully managed</span>
         <span>✓ Reply in 24hrs</span>
       </div>
       <h2>Get Your Free Machine</h2>
@@ -2193,7 +2552,6 @@ function buildTicker(id) {
   }));
 }
 buildTicker('tickerHome');
-buildTicker('tickerProducts');
 
 /* ─── PAGE SWITCHING ─── */
 function showPage(page, anchor) {
@@ -2216,28 +2574,6 @@ function showPage(page, anchor) {
   }, 60);
 }
 
-/* ─── FILTER TABS ─── */
-document.querySelectorAll('.ftab').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const cat = btn.dataset.cat;
-    document.querySelectorAll('.cat-section').forEach(sec => {
-      sec.style.display = (cat === 'all' || sec.dataset.section === cat) ? '' : 'none';
-    });
-    document.querySelectorAll('.cat-div').forEach(d => {
-      const prev = d.previousElementSibling;
-      const next = d.nextElementSibling;
-      d.style.display = (prev && prev.style.display === 'none') || (next && next.style.display === 'none') ? 'none' : '';
-    });
-    if (cat !== 'all') {
-      setTimeout(() => {
-        const sec = document.querySelector(`.cat-section[data-section="${cat}"]`);
-        if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 60);
-    }
-  });
-});
 
 /* ─── MODAL ─── */
 function openModal() { document.getElementById('mOverlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
