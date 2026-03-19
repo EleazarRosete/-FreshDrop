@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simple Serve – Simple Solutions. Trusted Service.</title>
+<title>Free Workplace Vending Machines for UK Businesses | Simple Serve</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -288,8 +288,32 @@ footer {
 /* ─────────────────────────────────────────
    SCROLL FADE
 ───────────────────────────────────────── */
-.fi { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.fi { opacity: 0; transform: translateY(32px); transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1); }
 .fi.vis { opacity: 1; transform: translateY(0); }
+
+/* ── Unified scroll animation system ──
+   All elements animate on scroll-in & fade/slide on scroll-out
+   for a consistent, editorial feel across every section. */
+.ss-up         { opacity:0; transform:translateY(44px);   transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); will-change:opacity,transform; }
+.ss-left       { opacity:0; transform:translateX(-44px);  transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
+.ss-right      { opacity:0; transform:translateX(44px);   transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
+.ss-scale      { opacity:0; transform:scale(.93);         transition: opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1); }
+.ss-fade       { opacity:0;                               transition: opacity .85s cubic-bezier(.16,1,.3,1); }
+/* visible state */
+.ss-up.ss-in, .ss-left.ss-in, .ss-right.ss-in, .ss-scale.ss-in, .ss-fade.ss-in
+               { opacity:1; transform:none; }
+/* exit state — scrolled above viewport */
+.ss-up.ss-out  { opacity:0; transform:translateY(-24px);  transition-duration:.45s; }
+.ss-left.ss-out{ opacity:0; transform:translateX(-24px);  transition-duration:.45s; }
+.ss-right.ss-out{opacity:0; transform:translateX(24px);   transition-duration:.45s; }
+.ss-scale.ss-out,.ss-fade.ss-out { opacity:0; transition-duration:.45s; }
+/* stagger delays */
+.ss-d1 { transition-delay:.08s; }
+.ss-d2 { transition-delay:.18s; }
+.ss-d3 { transition-delay:.28s; }
+.ss-d4 { transition-delay:.40s; }
+.ss-d5 { transition-delay:.52s; }
+.ss-d6 { transition-delay:.64s; }
 
 /* ═══════════════════════════════════════
    HOME PAGE
@@ -421,6 +445,164 @@ footer {
 .chip-dot.gold { background: var(--gold); }
 .chip-text { font-size: 0.76rem; font-weight: 700; color: var(--text); white-space: nowrap; }
 .chip-sub { font-size: 0.66rem; font-weight: 400; color: var(--lt); }
+
+/* ─────────────────────────────────────────
+   ADVANCED SCROLL ANIMATIONS
+───────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(48px);
+  transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+  will-change: opacity, transform;
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal.out { opacity: 0; transform: translateY(-32px); transition-duration: 0.5s; }
+.reveal-left {
+  opacity: 0; transform: translateX(-52px);
+  transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-left.in { opacity: 1; transform: translateX(0); }
+.reveal-right {
+  opacity: 0; transform: translateX(52px);
+  transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-right.in { opacity: 1; transform: translateX(0); }
+.reveal-scale {
+  opacity: 0; transform: scale(0.94);
+  transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-scale.in { opacity: 1; transform: scale(1); }
+[data-delay="1"] { transition-delay: 0.1s; }
+[data-delay="2"] { transition-delay: 0.2s; }
+[data-delay="3"] { transition-delay: 0.32s; }
+[data-delay="4"] { transition-delay: 0.44s; }
+[data-delay="5"] { transition-delay: 0.56s; }
+
+/* ── ABOUT ── */
+.about {
+  padding: 120px 6%;
+  background: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+.about::before {
+  content: '';
+  position: absolute; top: 0; left: 6%; right: 6%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-strong) 30%, var(--border-strong) 70%, transparent);
+}
+.about-inner {
+  max-width: 1180px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 100px; align-items: center;
+}
+.about-copy {
+  font-size: 1.15rem; color: var(--mid);
+  line-height: 1.88; font-weight: 300;
+  max-width: 500px;
+  margin-bottom: 52px;
+  letter-spacing: 0.01em;
+}
+.about-copy strong { color: var(--text); font-weight: 600; }
+.about-trust-row {
+  display: flex; flex-direction: column; gap: 0;
+  border-top: 1px solid var(--border);
+}
+.atr-item {
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+.atr-item::before {
+  content: '';
+  position: absolute; bottom: 0; left: 0;
+  height: 1px; width: 0;
+  background: linear-gradient(90deg, var(--emerald), transparent);
+  transition: width 0.75s cubic-bezier(0.16,1,0.3,1);
+}
+.atr-item.in::before { width: 100%; }
+.atr-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--emerald); flex-shrink: 0;
+}
+.atr-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.77rem; font-weight: 700;
+  color: var(--text); letter-spacing: 0.2px;
+}
+/* Photo stack */
+.about-visual {
+  position: relative; height: 600px;
+}
+.abv-main {
+  position: absolute;
+  top: 0; left: 0; right: 90px; bottom: 0;
+  border-radius: 3px; overflow: hidden;
+  background: var(--emerald-light);
+}
+.abv-main img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transform: scale(1.06);
+  transition: transform 1.4s cubic-bezier(0.16,1,0.3,1);
+}
+.abv-main.in img { transform: scale(1.0); }
+.abv-secondary {
+  position: absolute;
+  bottom: 50px; right: 0;
+  width: 52%; height: 42%;
+  border-radius: 3px; overflow: hidden;
+  background: var(--off);
+  border: 4px solid var(--white);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.15);
+  z-index: 2;
+}
+.abv-secondary img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.abv-secondary:hover img { transform: scale(1.05); }
+.abv-accent {
+  position: absolute;
+  top: 0; right: 0;
+  width: 33%; height: 28%;
+  border-radius: 3px; overflow: hidden;
+  background: var(--off);
+  border: 4px solid var(--white);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+  z-index: 2;
+}
+.abv-accent img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.abv-accent:hover img { transform: scale(1.06); }
+.abv-pill {
+  position: absolute;
+  bottom: 10px; left: 20px;
+  z-index: 4;
+  background: rgba(10,26,16,0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 100px;
+  padding: 10px 20px;
+  display: flex; align-items: center; gap: 10px;
+  border: 1px solid rgba(255,255,255,0.07);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+.abv-pill-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 10px rgba(74,222,128,0.7);
+  flex-shrink: 0;
+}
+.abv-pill-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem; font-weight: 700;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 0.6px; text-transform: uppercase;
+  white-space: nowrap;
+}
 
 /* ── SERVICES ── */
 .services { padding: 100px 6%; background: var(--white); }
@@ -822,6 +1004,12 @@ footer {
   .bespoke-row { flex-direction: column; align-items: flex-start; }
   .prod-cta { flex-direction: column; padding: 32px 28px; }
   .pp-header { grid-template-columns: 1fr; gap: 18px; }
+  /* About responsive */
+  .about-inner { grid-template-columns: 1fr; gap: 56px; }
+  .about-visual { height: 400px; }
+  .abv-main { right: 60px; }
+  .abv-accent { width: 38%; height: 32%; }
+  .abv-secondary { width: 54%; height: 40%; }
 }
 @media (max-width: 600px) {
   .pp-grid { grid-template-columns: 1fr; }
@@ -830,7 +1018,359 @@ footer {
   .hero-metrics { flex-direction: column; }
   .metric { border-right: none; border-bottom: 1px solid var(--border); }
   .metric:last-child { border-bottom: none; }
+  .about-visual { height: 320px; }
+  .abv-main { right: 40px; }
+  .abv-secondary { display: none; }
 }
+
+/* ════════════════════════════════════════
+   PREMIUM POLISH — scroll & interaction upgrades
+   Applied consistently across all sections
+════════════════════════════════════════ */
+
+/* Nav hide/show transition */
+nav { transition: transform 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease; }
+
+/* Hero — staggered title word animation */
+.hero-title span {
+  display: block;
+  opacity: 0;
+  transform: translateY(28px);
+  animation: heroWord 0.8s cubic-bezier(.16,1,.3,1) forwards;
+}
+.hero-title span:nth-child(1) { animation-delay: 0.05s; }
+.hero-title span:nth-child(2) { animation-delay: 0.15s; }
+.hero-title span:nth-child(3) { animation-delay: 0.25s; }
+@keyframes heroWord {
+  to { opacity:1; transform:translateY(0); }
+}
+.hero-tagline {
+  opacity: 0;
+  animation: heroWord 0.8s cubic-bezier(.16,1,.3,1) 0.38s forwards;
+}
+.hero-actions {
+  opacity: 0;
+  animation: heroWord 0.8s cubic-bezier(.16,1,.3,1) 0.5s forwards;
+}
+.hero-metrics {
+  opacity: 0;
+  animation: heroWord 0.8s cubic-bezier(.16,1,.3,1) 0.62s forwards;
+}
+
+/* Eyebrow reveal line */
+.eyebrow {
+  overflow: hidden;
+  position: relative;
+}
+.eyebrow::after {
+  transition: width .7s cubic-bezier(.16,1,.3,1);
+}
+
+/* Services — subsec hover lift */
+.subsec {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.subsec:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(15,106,60,0.06);
+}
+
+/* Core feats — they start invisible, JS adds ss-left */
+.core-feat {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px; padding: 14px 18px;
+  display: flex; align-items: flex-start; gap: 14px; color: white;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+.core-feat:hover {
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.2);
+}
+
+/* Industry items — smoother hover with scale */
+.ind-item {
+  transition: border-color 0.25s ease, transform 0.3s cubic-bezier(.16,1,.3,1), box-shadow 0.3s ease;
+}
+.ind-item:hover {
+  border-color: var(--emerald);
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 0 12px 32px rgba(15,106,60,0.1);
+}
+
+/* Products preview cards — premium hover */
+.pp-card {
+  transition: box-shadow 0.3s cubic-bezier(.16,1,.3,1), transform 0.3s cubic-bezier(.16,1,.3,1), border-color 0.25s ease;
+}
+.pp-card:hover {
+  box-shadow: 0 20px 48px rgba(0,0,0,0.09);
+  transform: translateY(-6px);
+  border-color: var(--emerald);
+}
+
+/* Step circles — pulse on hover */
+.step-circle {
+  transition: background 0.25s ease, transform 0.3s cubic-bezier(.16,1,.3,1), box-shadow 0.3s ease;
+}
+.step:hover .step-circle {
+  background: var(--emerald);
+  color: white;
+  transform: scale(1.08);
+  box-shadow: 0 8px 24px rgba(15,106,60,0.25);
+}
+
+/* How it works steps — individual item hover */
+.step {
+  transition: transform 0.3s cubic-bezier(.16,1,.3,1);
+  cursor: default;
+}
+.step:hover { transform: translateY(-4px); }
+
+/* CTA banner — subtle pulse glow */
+.cta-banner {
+  position: relative;
+  overflow: hidden;
+}
+.cta-banner::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(255,255,255,0.04) 0%, transparent 70%);
+  animation: ctaPulse 4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes ctaPulse {
+  0%,100% { opacity:0.5; }
+  50% { opacity:1; }
+}
+
+/* Buttons — enhanced press feel */
+.btn-primary, .btn-secondary, .btn-white, .btn-outline-w {
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.18s cubic-bezier(.16,1,.3,1), box-shadow 0.2s;
+}
+.btn-primary:active, .btn-secondary:active, .btn-white:active { transform: scale(0.97); }
+
+/* Logo mark hover */
+.logo:hover .logo-mark svg rect {
+  fill: var(--emerald-mid);
+  transition: fill 0.2s;
+}
+
+/* Ticker — pause on hover */
+.ticker-wrap:hover .ticker-track { animation-play-state: paused; }
+
+/* Footer links hover */
+.ft-col a {
+  transition: color 0.2s, transform 0.2s;
+  display: inline-block;
+}
+.ft-col a:hover { color: white; transform: translateX(3px); }
+
+/* Products page cat-section reveal */
+.cat-section { transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
+
+/* Product item hover */
+.prod-item {
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.3s cubic-bezier(.16,1,.3,1);
+}
+.prod-item:hover {
+  border-color: var(--emerald);
+  box-shadow: 0 8px 28px rgba(15,106,60,0.08);
+  transform: translateY(-3px);
+}
+
+
+/* ════════════════════════════════════════
+   CONVERSION UPGRADES — new components
+════════════════════════════════════════ */
+
+/* Hero reassurance line */
+.hero-reassurance {
+  font-size: 0.78rem; color: var(--lt); font-weight: 400;
+  letter-spacing: 0.2px; margin-bottom: 28px; margin-top: -10px;
+}
+
+/* Social proof bar */
+.proof-bar {
+  background: var(--off);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 18px 6%;
+}
+.proof-bar-inner {
+  max-width: 1180px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; flex-wrap: wrap;
+}
+.proof-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 4px 28px; font-size: 0.82rem; color: var(--mid);
+  font-weight: 400; letter-spacing: 0.1px;
+}
+.proof-item strong { color: var(--text); font-weight: 600; }
+.proof-div {
+  width: 1px; height: 18px; background: var(--border-strong);
+  flex-shrink: 0;
+}
+
+/* Why it's free box */
+.why-free-box {
+  background: var(--gold-light);
+  border: 1px solid rgba(212,160,23,0.3);
+  border-radius: 10px; padding: 22px 28px;
+  display: flex; align-items: flex-start; gap: 16px;
+  margin-bottom: 52px; max-width: 760px; margin-left: auto; margin-right: auto;
+}
+.wf-icon { flex-shrink: 0; margin-top: 2px; }
+.wf-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.82rem; font-weight: 800; color: #7a5800;
+  text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px;
+}
+.wf-text { font-size: 0.88rem; color: var(--mid); line-height: 1.72; font-weight: 300; }
+
+/* How it works CTA sub-text */
+.how-cta { text-align: center; margin-top: 52px; }
+.how-cta-sub {
+  display: block; margin-top: 12px;
+  font-size: 0.76rem; color: var(--lt); font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+/* Testimonials section */
+.testimonials-section {
+  padding: 100px 6%; background: var(--off);
+  position: relative;
+}
+.testimonials-section::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 1px; background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+}
+.testi-inner { max-width: 1180px; margin: 0 auto; }
+.testi-header { text-align: center; max-width: 600px; margin: 0 auto 56px; }
+.testi-header .eyebrow { justify-content: center; }
+.testi-header .eyebrow::before { display: none; }
+.testi-header .eyebrow::after { content: ''; width: 28px; height: 2px; background: var(--gold); }
+.testi-sub {
+  font-size: 1rem; color: var(--mid); font-weight: 300; line-height: 1.7;
+  margin-top: 16px;
+}
+.testi-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 24px; margin-bottom: 56px;
+}
+.testi-card {
+  background: white; border-radius: 10px;
+  border: 1px solid var(--border); padding: 32px 28px;
+  display: flex; flex-direction: column; gap: 20px;
+  transition: transform 0.3s cubic-bezier(.16,1,.3,1), box-shadow 0.3s ease, border-color 0.25s;
+  position: relative;
+}
+.testi-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.08);
+  border-color: var(--emerald);
+}
+.testi-card::before {
+  content: '\201C';
+  position: absolute; top: 16px; right: 24px;
+  font-size: 4rem; line-height: 1;
+  color: var(--emerald-light);
+  font-family: 'Montserrat', sans-serif; font-weight: 800;
+  pointer-events: none;
+}
+.testi-stars { color: var(--gold); font-size: 0.85rem; letter-spacing: 2px; }
+.testi-quote {
+  font-size: 0.9rem; color: var(--mid); line-height: 1.75;
+  font-weight: 300; font-style: italic; flex: 1;
+}
+.testi-author {
+  display: flex; align-items: center; gap: 12px;
+  padding-top: 16px; border-top: 1px solid var(--border);
+}
+.testi-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--emerald); color: white;
+  font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  letter-spacing: 0.5px;
+}
+.testi-name {
+  font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-weight: 700;
+  color: var(--text); margin-bottom: 2px;
+}
+.testi-role { font-size: 0.72rem; color: var(--lt); font-weight: 300; }
+
+/* Testimonials inline CTA */
+.testi-cta {
+  text-align: center; display: flex; flex-direction: column;
+  align-items: center; gap: 12px;
+  padding: 48px 32px;
+  border: 1px solid var(--border); border-radius: 10px;
+  background: white;
+}
+.testi-cta-copy {
+  font-size: 1.05rem; color: var(--text); font-weight: 400;
+  letter-spacing: -0.1px;
+}
+.testi-cta-note {
+  font-size: 0.74rem; color: var(--lt); font-weight: 300; letter-spacing: 0.2px;
+}
+
+/* Modal trust strip */
+.modal-trust-strip {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  margin-bottom: 20px; padding: 10px 14px;
+  background: var(--emerald-light); border-radius: 6px;
+  border: 1px solid rgba(15,106,60,0.12);
+}
+.modal-trust-strip span {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.7rem; font-weight: 700; color: var(--emerald);
+  letter-spacing: 0.3px;
+}
+.fg-optional {
+  font-family: 'Inter', sans-serif; font-weight: 300;
+  font-size: 0.72rem; color: var(--lt); text-transform: none; letter-spacing: 0;
+}
+.modal-footer-note {
+  font-size: 0.72rem; color: var(--lt); text-align: center;
+  margin-top: 10px; font-weight: 300; line-height: 1.55;
+}
+.modal-ok-sub {
+  font-size: 0.72rem; color: var(--lt); margin-top: 8px;
+  font-weight: 300; letter-spacing: 0.2px;
+}
+
+/* Responsive testimonials */
+@media (max-width: 900px) {
+  .testi-grid { grid-template-columns: 1fr; }
+  .proof-item { padding: 6px 16px; }
+  .proof-div { display: none; }
+  .why-free-box { flex-direction: column; }
+}
+
+
+/* Mid-services inline CTA row */
+.mid-cta-row {
+  margin: 32px 0 4px;
+  background: var(--emerald-light);
+  border: 1px solid rgba(15,106,60,0.15);
+  border-radius: 8px; padding: 20px 28px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px; flex-wrap: wrap;
+}
+.mid-cta-text {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.mid-cta-text strong {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem; font-weight: 800; color: var(--text);
+}
+.mid-cta-text span { font-size: 0.82rem; color: var(--mid); font-weight: 300; }
+@media (max-width: 600px) {
+  .mid-cta-row { flex-direction: column; align-items: flex-start; }
+}
+
 </style>
 </head>
 <body>
@@ -853,10 +1393,11 @@ footer {
   </a>
   <ul class="nav-links">
     <li><a id="nav-home" class="active" onclick="showPage('home')">Home</a></li>
+    <li><a id="nav-about" onclick="showPage('home','about')">About</a></li>
     <li><a id="nav-services" onclick="showPage('home','services')">Services</a></li>
     <li><a id="nav-products" onclick="showPage('products')">Products</a></li>
     <li><a id="nav-how" onclick="showPage('home','how-it-works')">How It Works</a></li>
-    <li><a class="nav-cta" onclick="openModal()">Get a Quote</a></li>
+    <li><a class="nav-cta" onclick="openModal()">Get Your Free Machine →</a></li>
   </ul>
 </nav>
 
@@ -870,18 +1411,18 @@ footer {
     <div class="hero-bg-line"></div>
     <div class="hero-inner">
 
-      <div class="fi">
-        <div class="hero-label">Now serving businesses across the UK</div>
+      <div class="ss-left">
+        <div class="hero-label">Free for UK businesses — no contract required</div>
         <h1 class="hero-title">
-          <span>Simple</span>
-          <span class="line-green">Solutions.</span>
-          <span class="line-gold">Trusted Service.</span>
+          <span class="line-gold">Simple solutions.</span>
+          <span class="line-green">Trusted service.</span>
         </h1>
-        <p class="hero-tagline">Professional workplace services — starting with vending, built to grow with your business.</p>
+        <p class="hero-tagline">Workplace services designed to support your business — starting with fully managed vending solutions, with more services coming soon.</p>
         <div class="hero-actions">
-          <a class="btn-primary" onclick="openModal()">Request a Service <span class="arrow-icon">→</span></a>
-          <a class="btn-secondary" onclick="showPage('home','services')">Our Services</a>
+          <a class="btn-primary" onclick="openModal()">Request a Machine →<span class="arrow-icon">→</span></a>
+          <a class="btn-secondary" onclick="showPage('home','how-it-works')">See How It Works →</a>
         </div>
+        <div class="hero-reassurance">No cost to your business &nbsp;·&nbsp; Response within 24hrs &nbsp;·&nbsp; No contract needed</div>
         <div class="hero-metrics">
           <div class="metric">
             <span class="metric-val">Free</span>
@@ -898,12 +1439,12 @@ footer {
         </div>
       </div>
 
-      <div class="hero-card-wrap fi" style="transition-delay:.2s">
+      <div class="hero-card-wrap ss-right ss-d2">
         <div class="service-card-hero">
           <div class="sc-header">
             <div class="sc-num">Service 01</div>
             <div class="sc-name">Workplace Vending</div>
-            <div class="sc-sub">Fully managed. Zero cost to your business.</div>
+            <div class="sc-sub">Installed free. Stocked for you. Maintained forever.</div>
           </div>
           <div class="sc-body">
             <div class="sc-stat-row">
@@ -919,12 +1460,6 @@ footer {
                 <div class="sc-stat-v">24/7</div>
                 <div class="sc-stat-l">Support</div>
               </div>
-            </div>
-            <div class="sc-tags">
-              <span class="sc-tag">Snacks & Drinks</span>
-              <span class="sc-tag">Healthy Options</span>
-              <span class="sc-tag gold">Energy & Fitness</span>
-              <span class="sc-tag">Custom Range</span>
             </div>
           </div>
         </div>
@@ -952,20 +1487,121 @@ footer {
     <div class="ticker-track" id="tickerHome"></div>
   </div>
 
-  <!-- SERVICES -->
+  <!-- SOCIAL PROOF BAR -->
+  <div class="proof-bar ss-up">
+    <div class="proof-bar-inner">
+      <div class="proof-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span><strong>Trusted by offices, gyms &amp; clinics</strong> across the UK</span>
+      </div>
+      <div class="proof-div"></div>
+      <div class="proof-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span><strong>50+ curated products</strong> — stocked to suit your team</span>
+      </div>
+      <div class="proof-div"></div>
+      <div class="proof-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span><strong>UK-registered company</strong> — Simple Serve Ltd</span>
+      </div>
+      <div class="proof-div"></div>
+      <div class="proof-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>We respond <strong>within 24 hours</strong> — guaranteed</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-inner">
+
+      <!-- Text side -->
+      <div class="reveal-left">
+        <div class="eyebrow">About Us</div>
+        <h2 class="section-title" style="margin-bottom:28px;">Who We <em>Are</em></h2>
+        <p class="about-copy">
+          Simple Serve makes workplace services easy. We start with <strong>fully managed vending solutions</strong> — installation, restocking, and maintenance handled for you. Our vision? To grow into a flexible platform offering logistics, delivery, and more, keeping workplaces running smoothly.<br><br>
+          <strong>Simple solutions. Trusted service.</strong>
+        </p>
+        <div class="about-trust-row">
+          <div class="atr-item reveal" data-delay="1">
+            <div class="atr-dot"></div>
+            <span class="atr-text">Free installation — no cost to your business</span>
+          </div>
+          <div class="atr-item reveal" data-delay="2">
+            <div class="atr-dot"></div>
+            <span class="atr-text">Fully managed restocking &amp; maintenance</span>
+          </div>
+          <div class="atr-item reveal" data-delay="3">
+            <div class="atr-dot"></div>
+            <span class="atr-text">24/7 support — always on call</span>
+          </div>
+          <div class="atr-item reveal" data-delay="4">
+            <div class="atr-dot"></div>
+            <span class="atr-text">UK-based, no contract required</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual photo stack -->
+      <div class="about-visual reveal-right">
+
+        <!-- Main tall photo -->
+        <div class="abv-main">
+          <img
+            src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&q=85&auto=format&fit=crop"
+            alt="Modern professional workplace"
+            loading="lazy"
+            onerror="this.style.display='none'"
+          >
+        </div>
+
+        <!-- Overlapping bottom-right photo -->
+        <div class="abv-secondary">
+          <img
+            src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80&auto=format&fit=crop"
+            alt="Active fitness workplace"
+            loading="lazy"
+            onerror="this.style.display='none'"
+          >
+        </div>
+
+        <!-- Top-right accent photo -->
+        <div class="abv-accent">
+          <img
+            src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&q=80&auto=format&fit=crop"
+            alt="Healthcare workplace environment"
+            loading="lazy"
+            onerror="this.style.display='none'"
+          >
+        </div>
+
+        <!-- Credential pill -->
+        <div class="abv-pill">
+          <div class="abv-pill-dot"></div>
+          <span class="abv-pill-text">Serving UK workplaces</span>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+    <!-- SERVICES -->
   <section class="services" id="services">
     <div class="srv-inner">
 
-      <div class="srv-header fi">
+      <div class="srv-header ss-up">
         <div>
           <div class="eyebrow">What We Offer</div>
-          <h2 class="section-title">Our <em>Services</em></h2>
+          <h2 class="section-title">Workplace solutions built to <em>grow with your business.</em></h2>
         </div>
-        <p class="section-sub">Simple Serve is built to deliver multiple business services. Vending is where we start — but not where we stop.</p>
+        <p class="section-sub">You provide the space and the power outlet. We provide the machine, the products, the restocking, and the support — at no cost to your business.</p>
       </div>
 
       <!-- Subsection 01: Core Service -->
-      <div class="subsec fi">
+      <div class="subsec ss-up ss-d1">
         <div class="subsec-head">
           <div class="subsec-num">01</div>
           <span class="subsec-title">Workplace Vending — Core Service</span>
@@ -973,8 +1609,8 @@ footer {
         <div class="subsec-body">
           <div class="core-card">
             <div>
-              <h3 class="core-card-title">Vending Machines, Fully Managed</h3>
-              <p class="core-card-desc">Modern snack and drink vending machines installed at your workplace at no cost. We handle everything — setup, restocking, and maintenance — so you never have to think about it.</p>
+              <h3 class="core-card-title">A free vending machine, running itself.</h3>
+              <p class="core-card-desc">Modern vending machines installed, stocked, and fully managed — at no cost to your business.</p>
               <div class="core-pills">
                 <span class="core-pill">Free Installation</span>
                 <span class="core-pill">Regular Restocking</span>
@@ -1016,14 +1652,14 @@ footer {
       </div>
 
       <!-- Subsection 02: Who We Serve -->
-      <div class="subsec fi" style="transition-delay:.1s">
+      <div class="subsec ss-up ss-d2">
         <div class="subsec-head">
           <div class="subsec-num">02</div>
           <span class="subsec-title">Who We Serve</span>
         </div>
         <div class="subsec-body">
           <div class="who-card">
-            <p class="who-intro">From busy office floors to healthcare environments — wherever people work, Simple Serve keeps them refreshed. We tailor every machine to the environment it serves.</p>
+            <p class="who-intro">Simple Serve works for any UK workplace with 10+ people on site. We tailor the product mix to your environment — so an office gets a different selection to a gym or a clinic. If your team needs refreshments, we have a solution.</p>
             <div class="ind-grid">
               <div class="ind-item">
                 <div class="ind-icon-wrap">
@@ -1058,8 +1694,17 @@ footer {
         </div>
       </div>
 
+      <!-- Mid-services inline CTA -->
+      <div class="mid-cta-row ss-up ss-d2">
+        <div class="mid-cta-text">
+          <strong>Ready to get started?</strong>
+          <span>Takes 2 minutes to enquire. No contract, no cost.</span>
+        </div>
+        <a class="btn-primary" onclick="openModal()">Get Your Free Machine <span class="arrow-icon">→</span></a>
+      </div>
+
       <!-- Logistics note at end -->
-      <div class="logistics-note fi" style="transition-delay:.2s">
+      <div class="logistics-note ss-up ss-d3">
         <span class="note-badge">Coming Soon</span>
         <div class="note-text">
           <h4>Logistics &amp; Delivery Services</h4>
@@ -1073,7 +1718,7 @@ footer {
   <!-- PRODUCTS PREVIEW -->
   <section class="prod-preview" id="products-preview">
     <div class="pp-inner">
-      <div class="pp-header fi">
+      <div class="pp-header ss-up">
         <div>
           <div class="eyebrow">Our Range</div>
           <h2 class="section-title">Popular <em>Products</em></h2>
@@ -1081,7 +1726,7 @@ footer {
         <a class="btn-secondary" onclick="showPage('products')" style="align-self:flex-end">Browse all products <span class="arrow-icon">→</span></a>
       </div>
 
-      <div class="pp-grid fi">
+      <div class="pp-grid ss-up ss-d1">
         <div class="pp-card">
           <div class="pp-card-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
@@ -1116,7 +1761,7 @@ footer {
         </div>
       </div>
 
-      <div class="pp-see-all fi">
+      <div class="pp-see-all ss-up ss-d2">
         <button class="btn-see-all" onclick="showPage('products')">
           See All Products <span class="sa-arrow">→</span>
         </button>
@@ -1127,44 +1772,109 @@ footer {
   <!-- HOW IT WORKS -->
   <section class="how" id="how-it-works">
     <div class="how-inner">
-      <div class="how-header fi">
-        <div class="eyebrow">The Process</div>
-        <h2 class="section-title">How It <em>Works</em></h2>
-        <p class="section-sub">Getting started with Simple Serve is straightforward. We take care of everything from first contact to ongoing management.</p>
+      <div class="how-header ss-up">
+        <div class="eyebrow">Vending Made Simple</div>
+        <h2 class="section-title">Up and running <em>in days.</em></h2>
+        <p class="section-sub">Three steps. No disruption to your workplace. Our team handles everything from first contact to ongoing management.</p>
       </div>
-      <div class="steps-row fi">
+
+      <!-- WHY IT'S FREE explainer — removes the biggest objection -->
+      <div class="why-free-box ss-up ss-d1">
+        <div class="wf-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div>
+          <div class="wf-title">Why is it free?</div>
+          <div class="wf-text">Simple Serve earns revenue through product sales — not from you. The machine, installation, restocking and maintenance are all covered on our side. You pay nothing. Your team pays machine price per item — just like any vending machine. There are no hidden charges, no monthly fees, and no contracts.</div>
+        </div>
+      </div>
+      <div class="steps-row ss-up ss-d1">
         <div class="step">
           <div class="step-circle">1</div>
-          <h3>Get in Touch</h3>
-          <p>Submit a request and tell us about your workplace. We'll be in contact within 24 hours to discuss your requirements.</p>
+          <h3>Tell us about your site</h3>
+          <p>Takes 2 minutes. We respond within 24 hours.</p>
         </div>
         <div class="step">
           <div class="step-circle">2</div>
-          <h3>Free Installation</h3>
-          <p>We install a fully stocked, modern vending machine at your site at no cost. All we need is a suitable space and a power outlet.</p>
+          <h3>We install your machine</h3>
+          <p>Quick, professional setup with no disruption.</p>
         </div>
         <div class="step">
           <div class="step-circle">3</div>
-          <h3>Sit Back &amp; Enjoy</h3>
-          <p>We handle all restocking and maintenance on an ongoing basis. Your team enjoys reliable refreshments — with zero effort from you.</p>
+          <h3>We manage everything</h3>
+          <p>Restocking, maintenance, and support — all handled.</p>
         </div>
       </div>
-      <div class="how-cta fi" style="transition-delay:.15s">
-        <a class="btn-primary" onclick="openModal()">Request a Machine <span class="arrow-icon">→</span></a>
+      <div class="how-cta ss-up ss-d2">
+        <a class="btn-primary" onclick="openModal()">Get Your Free Machine <span class="arrow-icon">→</span></a>
+        <p class="how-cta-sub">Takes 2 minutes &nbsp;·&nbsp; No commitment &nbsp;·&nbsp; Response within 24 hours</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials-section" id="testimonials">
+    <div class="testi-inner">
+      <div class="testi-header ss-up">
+        <div class="eyebrow">What Clients Say</div>
+        <h2 class="section-title">Trusted by <em>workplaces across the UK</em></h2>
+        <p class="testi-sub">Real feedback from facilities managers, business owners and office managers who use Simple Serve.</p>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card ss-up ss-d1">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">"The machine was installed within a week of us getting in touch. It's always stocked, never broken, and our team loves it. We haven't had to do a single thing since day one."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">SM</div>
+            <div>
+              <div class="testi-name">Sarah M.</div>
+              <div class="testi-role">Office Manager, London</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card ss-up ss-d2">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">"We were sceptical at first — nothing is ever truly free. But Simple Serve does exactly what they say. No invoices, no surprises. Our gym members notice the difference."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">JR</div>
+            <div>
+              <div class="testi-name">James R.</div>
+              <div class="testi-role">Gym Owner, Manchester</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card ss-up ss-d3">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">"As a facilities manager I've dealt with vending companies before — the fees, the contracts, the machines that sit empty for days. Simple Serve is completely different. Genuinely impressed."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">DK</div>
+            <div>
+              <div class="testi-name">David K.</div>
+              <div class="testi-role">Facilities Manager, Birmingham</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inline mid-page CTA -->
+      <div class="testi-cta ss-up ss-d2">
+        <p class="testi-cta-copy">Join the workplaces already benefiting from Simple Serve.</p>
+        <a class="btn-primary" onclick="openModal()">Get Your Free Machine <span class="arrow-icon">→</span></a>
+        <span class="testi-cta-note">Free to enquire &nbsp;·&nbsp; No contract &nbsp;·&nbsp; UK businesses only</span>
       </div>
     </div>
   </section>
 
   <!-- CTA BANNER -->
   <div class="cta-wrap">
-    <div class="cta-banner fi">
+    <div class="cta-banner ss-scale">
       <div class="cta-text">
-        <h2>Ready to work with<br><em>Simple Serve?</em></h2>
-        <p>Free installation. Fully managed. No commitment to enquire.</p>
+        <h2>Get a free vending machine<br><em>for your workplace.</em></h2>
+        <p>Free installation · Fully managed · No contract needed · Response within 24 hours</p>
       </div>
       <div class="cta-actions">
-        <a class="btn-white" onclick="openModal()">Request a Service</a>
-        <a class="btn-outline-w" onclick="showPage('products')">View Products</a>
+        <a class="btn-white" onclick="openModal()">Get Your Free Machine →</a>
+        <a class="btn-outline-w" onclick="showPage('home','how-it-works')">How it works</a>
       </div>
     </div>
   </div>
@@ -1225,7 +1935,7 @@ footer {
 
   <div class="page-hero">
     <div class="page-hero-bg"></div>
-    <div class="ph-inner fi">
+    <div class="ph-inner ss-up">
       <div class="eyebrow">Our Range</div>
       <h1 class="ph-title">Product <em>Range</em></h1>
       <p class="ph-sub">Browse our curated selection — snacks, drinks, healthy options and more. Every machine is stocked to suit your workplace and team.</p>
@@ -1251,7 +1961,7 @@ footer {
   <div class="products-body">
     <div class="pb-inner">
 
-      <div class="cat-section fi" data-section="snacks">
+      <div class="cat-section ss-up" data-section="snacks">
         <div class="cat-head">
           <div class="cat-icon-box">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2l18 0M3 22l18 0M5 2v20M19 2v20M8 6h2M8 10h2M8 14h2M8 18h2M14 6h2M14 10h2M14 14h2M14 18h2"/></svg>
@@ -1273,7 +1983,7 @@ footer {
       </div>
       <div class="cat-div"></div>
 
-      <div class="cat-section fi" data-section="drinks">
+      <div class="cat-section ss-up" data-section="drinks">
         <div class="cat-head">
           <div class="cat-icon-box">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
@@ -1295,7 +2005,7 @@ footer {
       </div>
       <div class="cat-div"></div>
 
-      <div class="cat-section fi" data-section="healthy">
+      <div class="cat-section ss-up" data-section="healthy">
         <div class="cat-head">
           <div class="cat-icon-box">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -1317,7 +2027,7 @@ footer {
       </div>
       <div class="cat-div"></div>
 
-      <div class="cat-section fi" data-section="energy">
+      <div class="cat-section ss-up" data-section="energy">
         <div class="cat-head">
           <div class="cat-icon-box">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
@@ -1339,7 +2049,7 @@ footer {
       </div>
       <div class="cat-div"></div>
 
-      <div class="cat-section fi" data-section="custom">
+      <div class="cat-section ss-up" data-section="custom">
         <div class="cat-head">
           <div class="cat-icon-box">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
@@ -1358,7 +2068,7 @@ footer {
         </div>
       </div>
 
-      <div class="prod-cta fi">
+      <div class="prod-cta ss-scale">
         <div>
           <h3>Ready to bring <em>Simple Serve</em> to your workplace?</h3>
           <p>Free installation. Fully managed. Get in touch today.</p>
@@ -1426,25 +2136,33 @@ footer {
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div id="mForm">
-      <h2>Request a Service</h2>
-      <p class="modal-sub">Fill in your details and we'll be in touch within 24 hours.</p>
+      <div class="modal-trust-strip">
+        <span>✓ Free to enquire</span>
+        <span>✓ No contract</span>
+        <span>✓ Reply in 24hrs</span>
+      </div>
+      <h2>Get Your Free Machine</h2>
+      <p class="modal-sub">Tell us a little about your site — we'll be in touch within 24 hours to get you set up.</p>
       <div class="form-row">
         <div class="fg"><label>First Name</label><input type="text" placeholder="Jane"></div>
         <div class="fg"><label>Last Name</label><input type="text" placeholder="Smith"></div>
       </div>
-      <div class="fg"><label>Email Address</label><input type="email" placeholder="jane@company.com"></div>
-      <div class="fg"><label>Company</label><input type="text" placeholder="Acme Ltd"></div>
+      <div class="fg"><label>Work Email</label><input type="email" placeholder="jane@yourcompany.com"></div>
+      <div class="fg"><label>Company Name</label><input type="text" placeholder="Your business name"></div>
       <div class="fg">
-        <label>Industry</label>
-        <select><option value="">Select…</option><option>Office / Business Park</option><option>Clinic / Healthcare</option><option>Gym / Fitness Centre</option><option>Warehouse / Industrial</option><option>Other</option></select>
+        <label>Type of Workplace</label>
+        <select><option value="">Select your workplace type…</option><option>Office / Business Park</option><option>Clinic / Healthcare</option><option>Gym / Fitness Centre</option><option>Warehouse / Industrial</option><option>Other</option></select>
       </div>
-      <div class="fg"><label>Notes (optional)</label><textarea placeholder="Tell us about your site or requirements…"></textarea></div>
-      <button class="modal-submit" onclick="submitForm()">Submit Request</button>
+      <div class="fg"><label>Approximate Number of Staff <span class="fg-optional">(helps us recommend the right machine)</span></label><select><option value="">Select a range…</option><option>10–25 people</option><option>26–50 people</option><option>51–100 people</option><option>100+ people</option></select></div>
+      <div class="fg"><label>Anything else? <span class="fg-optional">Optional</span></label><textarea placeholder="e.g. preferred products, site access, or questions…"></textarea></div>
+      <button class="modal-submit" onclick="submitForm()">Send My Request — It's Free →</button>
+      <p class="modal-footer-note">By submitting you agree to be contacted by Simple Serve. We don't spam or share your data.</p>
     </div>
     <div class="modal-ok" id="mOk">
       <div class="ck">✅</div>
-      <h3>Request Received</h3>
-      <p>Our team will be in touch within 24 hours.</p>
+      <h3>Request Received!</h3>
+      <p>We'll be in touch within 24 hours to discuss your free machine. Keep an eye on your inbox.</p>
+      <p class="modal-ok-sub">Simple Serve Ltd &nbsp;·&nbsp; UK-registered company</p>
     </div>
   </div>
 </div>
@@ -1531,11 +2249,150 @@ function closeModal() {
 function handleOv(e) { if (e.target === document.getElementById('mOverlay')) closeModal(); }
 function submitForm() { document.getElementById('mForm').style.display = 'none'; document.getElementById('mOk').style.display = 'block'; }
 
-/* ─── SCROLL FADE ─── */
-const obs = new IntersectionObserver(entries => {
+/* ════════════════════════════════════════
+   UNIFIED SCROLL ANIMATION ENGINE
+   Covers every section: hero, about, services,
+   products preview, how it works, CTA, footer,
+   products page — consistent bidirectional reveal.
+════════════════════════════════════════ */
+
+/* Legacy .fi support */
+const legacyObs = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
-}, { threshold: 0.08 });
-document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+}, { threshold: 0.07 });
+document.querySelectorAll('.fi').forEach(el => legacyObs.observe(el));
+
+/* Main bidirectional observer — ss- classes */
+const ssObs = new IntersectionObserver(entries => {
+  entries.forEach(({ target: el, isIntersecting, boundingClientRect: rect }) => {
+    if (isIntersecting) {
+      el.classList.add('ss-in');
+      el.classList.remove('ss-out');
+    } else if (el.classList.contains('ss-in')) {
+      if (rect.top < 0) {
+        // Scrolled above — exit up
+        el.classList.add('ss-out');
+        el.classList.remove('ss-in');
+      } else {
+        // Below viewport — reset cleanly
+        el.classList.remove('ss-in', 'ss-out');
+      }
+    }
+  });
+}, { threshold: 0.09, rootMargin: '0px 0px -48px 0px' });
+
+/* Also observe .reveal, .reveal-left etc for about section */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(({ target: el, isIntersecting, boundingClientRect: rect }) => {
+    if (isIntersecting) {
+      el.classList.add('in');
+      el.classList.remove('out');
+    } else if (el.classList.contains('in')) {
+      if (rect.top < 0) {
+        el.classList.add('out');
+        el.classList.remove('in');
+      } else {
+        el.classList.remove('in', 'out');
+      }
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+/* Register all animatable elements */
+document.querySelectorAll(
+  '.ss-up, .ss-left, .ss-right, .ss-scale, .ss-fade'
+).forEach(el => ssObs.observe(el));
+
+/* Testimonial cards stagger */
+document.querySelectorAll('.testi-card').forEach((el, i) => {
+  el.classList.add('ss-up');
+  el.classList.add(['ss-d1','ss-d2','ss-d3'][i] || 'ss-d1');
+  ssObs.observe(el);
+});
+
+/* Proof bar items stagger */
+document.querySelectorAll('.proof-item').forEach((el, i) => {
+  el.classList.add('ss-fade');
+  el.classList.add(['ss-d1','ss-d2','ss-d3','ss-d4'][i] || 'ss-d1');
+  ssObs.observe(el);
+});
+
+document.querySelectorAll(
+  '.reveal, .reveal-left, .reveal-right, .reveal-scale, .atr-item, .abv-main'
+).forEach(el => revealObs.observe(el));
+
+/* ── Step card individual stagger within steps-row ── */
+document.querySelectorAll('.step').forEach((el, i) => {
+  el.classList.add('ss-up');
+  el.classList.add(['ss-d1','ss-d2','ss-d3'][i] || 'ss-d1');
+  ssObs.observe(el);
+});
+
+/* ── Products preview cards stagger ── */
+document.querySelectorAll('.pp-card').forEach((el, i) => {
+  el.classList.add('ss-up');
+  el.classList.add(['ss-d1','ss-d2','ss-d3','ss-d4'][i] || 'ss-d1');
+  ssObs.observe(el);
+});
+
+/* ── Who We Serve industry items stagger ── */
+document.querySelectorAll('.ind-item').forEach((el, i) => {
+  el.classList.add('ss-up');
+  el.classList.add(['ss-d1','ss-d2','ss-d3','ss-d4'][i] || 'ss-d1');
+  ssObs.observe(el);
+});
+
+/* ── Core service feats stagger ── */
+document.querySelectorAll('.core-feat').forEach((el, i) => {
+  el.classList.add('ss-left');
+  el.classList.add(['ss-d1','ss-d2','ss-d3'][i] || 'ss-d1');
+  ssObs.observe(el);
+});
+
+/* ── Products page cat sections ── */
+document.querySelectorAll('.cat-section').forEach((el, i) => {
+  el.classList.add('ss-up');
+  ssObs.observe(el);
+});
+
+/* ── Subtle parallax on about photos ── */
+function doParallax() {
+  const main = document.querySelector('.abv-main');
+  if (main) {
+    const img = main.querySelector('img');
+    if (img) {
+      const r = main.getBoundingClientRect();
+      const p = Math.max(0, Math.min(1, 1 - r.top / window.innerHeight));
+      img.style.transform = `scale(1.06) translateY(${(p - 0.5) * 22}px)`;
+    }
+  }
+}
+window.addEventListener('scroll', doParallax, { passive: true });
+doParallax();
+
+/* ── Nav elevation on scroll ── */
+const navEl = document.querySelector('nav');
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  navEl.style.boxShadow = y > 40 ? '0 2px 28px rgba(0,0,0,0.06)' : 'none';
+  // Subtle hide/show on fast scroll
+  if (y > 200) {
+    navEl.style.transform = y > lastScroll ? 'translateY(-100%)' : 'translateY(0)';
+  } else {
+    navEl.style.transform = 'translateY(0)';
+  }
+  lastScroll = y;
+}, { passive: true });
+
+/* ── Section progress indicator (subtle emerald line at top) ── */
+const progressBar = document.createElement('div');
+progressBar.style.cssText = 'position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,#0F6A3C,#D4A017);z-index:200;transition:width .1s linear;pointer-events:none;';
+document.body.appendChild(progressBar);
+window.addEventListener('scroll', () => {
+  const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  progressBar.style.width = Math.min(pct, 100) + '%';
+}, { passive: true });
 </script>
 </body>
 </html>
